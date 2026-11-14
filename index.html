@@ -3,12 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#ffd84d">
+<meta name="theme-color" content="#0f8597">
 <title>מצא את ההבדלים – דו־קרב</title>
 <meta name="description" content="משחק מצא את ההבדלים צבעוני – שלבים, טיימר ודו־קרב אונליין עם חבר בקישור.">
 <meta property="og:title" content="מצא את ההבדלים – דו־קרב">
 <meta property="og:description" content="מי מוצא מהר יותר? בוא לדו־קרב!">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='42' cy='42' r='30' fill='%23ffd84d' stroke='%23222' stroke-width='8'/%3E%3Cpath d='M64 64l24 24' stroke='%23222' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/api/app?f=icon&s=192">
+<link rel="apple-touch-icon" href="/api/app?f=icon&s=192">
+<link rel="manifest" href="/api/app?f=manifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="מצא הבדלים">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -49,13 +54,13 @@ input.txt:focus{background:#fffbe0}
 .mag{position:absolute;font-size:46px;pointer-events:none;animation:mag 6s ease-in-out infinite;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25))}
 @keyframes mag{0%{left:10%;top:20%}25%{left:60%;top:45%}50%{left:75%;top:10%}75%{left:30%;top:55%}100%{left:10%;top:20%}}
 .best{font-size:15px;color:#5b5470;font-weight:500}
-.topbtns{position:fixed;top:calc(10px + env(safe-area-inset-top));left:10px;z-index:30;display:flex;gap:8px}
+.topbtns{position:fixed;top:calc(10px + env(safe-area-inset-top));inset-inline-end:10px;z-index:30;display:flex;gap:8px}
 .round{width:44px;height:44px;border:3px solid var(--ink);border-radius:50%;background:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 0 var(--ink);padding:0}
 .round:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 
 /* game */
 #game{padding-top:calc(6px + env(safe-area-inset-top));background:rgba(255,255,255,.35)}
-.hud{width:min(96vw,620px);display:flex;align-items:center;gap:8px;padding-left:52px}
+.hud{width:min(96vw,620px);display:flex;align-items:center;gap:8px;padding-inline:54px}
 .pill{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:4px 12px;font-weight:700;font-size:19px;white-space:nowrap;box-shadow:0 3px 0 var(--ink)}
 .pill.lv{background:var(--purple);color:#fff}
 .pill.sc{background:var(--yellow);min-width:76px;text-align:center}
@@ -165,13 +170,13 @@ body.ingame .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
   .hud,.rival{width:min(98vw,1540px)}
 }
 .lvgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;width:100%}
-.lv{aspect-ratio:1;border:2.5px solid var(--ink);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--ink);font-family:'Fredoka',sans-serif;font-weight:700;font-size:17px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0;line-height:1}
-.lv small{font-size:9px;letter-spacing:-1px;color:#f5a400}
-.lv.locked{background:#e7e4ef;color:#9b96ad;box-shadow:0 2px 0 #9b96ad;border-color:#9b96ad;cursor:default}
-.lv.cur{background:var(--yellow);animation:pulse .7s infinite alternate}
-.lv.chal{background:#efe6ff;font-size:20px}
-.lv.chal.done{background:var(--green);color:#fff}
-.lv.chal.locked{background:#e7e4ef}
+#lvGrid .lv{aspect-ratio:1;border:2.5px solid var(--ink);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--ink);font-family:'Fredoka',sans-serif;font-weight:700;font-size:17px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0;line-height:1}
+#lvGrid .lv small{font-size:9px;letter-spacing:-1px;color:#f5a400}
+#lvGrid .lv.locked{background:#e7e4ef;color:#9b96ad;box-shadow:0 2px 0 #9b96ad;border-color:#9b96ad;cursor:default}
+#lvGrid .lv.cur{background:var(--yellow);animation:pulse .7s infinite alternate}
+#lvGrid .lv.chal{background:#efe6ff;font-size:20px}
+#lvGrid .lv.chal.done{background:var(--green);color:#fff}
+#lvGrid .lv.chal.locked{background:#e7e4ef}
 .statpill{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:5px 12px;font-weight:700;font-size:18px;box-shadow:0 3px 0 var(--ink)}
 
 /* ---- home (card menu) ---- */
@@ -193,13 +198,13 @@ html[dir=ltr] .hme{padding:2px 2px 2px 12px}
 .hprog b{position:relative;display:block;text-align:center;color:#fff;font:700 15px/22px 'Fredoka',sans-serif;text-shadow:0 1px 0 rgba(0,0,0,.4)}
 .hcoin{flex:none;background:#0b2e4f;border:2px solid #6fc6d6;border-radius:20px;color:#ffd84d;font:700 15px 'Fredoka',sans-serif;padding:4px 10px}
 #home .title{margin:18px 0 6px;font-size:clamp(34px,10.5vw,58px)}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(94vw,440px);margin-top:10px}
-.card{position:relative;aspect-ratio:3/4;border:7px solid #fff;border-radius:22px;box-shadow:0 0 0 3px var(--ink),0 8px 0 3px rgba(0,0,0,.25);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;overflow:hidden;color:#fff;font-family:'Fredoka',sans-serif;transition:transform .12s}
-.card::before{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(rgba(255,255,255,.16) 0 9deg,transparent 9deg 18deg);animation:spin 40s linear infinite}
-.card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.45),transparent 60%)}
-.card>*{position:relative;z-index:1}
-.card:active{transform:scale(.95) rotate(-1deg)}
-@media(hover:hover){.card:hover{transform:translateY(-4px) rotate(-1.5deg)}}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:min(94vw,440px);margin-top:6px}
+.mcard{position:relative;aspect-ratio:1/1;border:6px solid #fff;border-radius:22px;box-shadow:0 0 0 3px var(--ink),0 8px 0 3px rgba(0,0,0,.25);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;overflow:hidden;color:#fff;font-family:'Fredoka',sans-serif;transition:transform .12s}
+.mcard::before{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(rgba(255,255,255,.16) 0 9deg,transparent 9deg 18deg);animation:spin 40s linear infinite}
+.mcard::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.45),transparent 60%)}
+.mcard>*{position:relative;z-index:1}
+.mcard:active{transform:scale(.95) rotate(-1deg)}
+@media(hover:hover){.mcard:hover{transform:translateY(-4px) rotate(-1.5deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .cr{background:#f2444f}.cg{background:#3cb43a}.cb{background:#2079d6}.cy{background:#f6b40a}
 .ci{font-size:clamp(46px,15vw,68px);filter:drop-shadow(0 4px 0 rgba(0,0,0,.25));animation:bob 2.6s ease-in-out infinite}
@@ -213,7 +218,33 @@ html[dir=ltr] .hme{padding:2px 2px 2px 12px}
 .rb{position:relative;width:62px;height:62px;border-radius:50%;border:4px solid #fff;background:#2c8ca1;font-size:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25);padding:0}
 .rb.off .mx{position:absolute;width:44px;height:5px;background:#ff4d5e;border-radius:3px;transform:rotate(-45deg);box-shadow:0 0 0 2px #fff}
 .rb:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
-@media (orientation:landscape) and (min-width:760px){.cards{grid-template-columns:repeat(4,1fr);width:min(94vw,900px)}}
+@media (orientation:landscape) and (min-width:760px){.cards{grid-template-columns:repeat(5,1fr);width:min(94vw,1000px)}.mcard.wide{grid-column:auto;flex-direction:column;aspect-ratio:3/4;height:auto}.mcard.wide .cw{align-items:center}.mcard{aspect-ratio:3/4}}
+.mcard.wide{grid-column:span 2;aspect-ratio:auto;height:118px;flex-direction:row;gap:14px}
+.mcard.wide .cw{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.mcard.wide .ci{font-size:60px}
+.cp{background:#8e5cf0}
+.hlogo{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 8px}
+.hlogo .emblem{width:clamp(64px,19vw,96px);height:auto;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.2));animation:bob 3s ease-in-out infinite}
+#home .hlogo .title{margin:0;font-size:clamp(30px,9vw,52px)}
+.friendbox{display:none;margin-top:12px;width:min(94vw,440px);gap:10px}.friendbox.on{display:flex}
+.navback{position:fixed;top:calc(10px + env(safe-area-inset-top));inset-inline-start:10px;z-index:55;width:46px;height:46px;border-radius:50%;border:3px solid var(--ink);background:var(--yellow);box-shadow:0 3px 0 var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.navback:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+html[dir=ltr] .navback svg{transform:scaleX(-1)}
+body.onhome .navback{display:none}
+.tcard{position:relative;overflow:hidden;width:100%;border:6px solid #fff;border-radius:24px;box-shadow:0 0 0 3px var(--ink),0 8px 0 3px rgba(0,0,0,.25);padding:20px 16px;color:#fff;font-family:'Fredoka',sans-serif;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center}
+.tcard::before{content:"";position:absolute;inset:-60%;background:repeating-conic-gradient(rgba(255,255,255,.14) 0 9deg,transparent 9deg 18deg);animation:spin 50s linear infinite}
+.tcard>*{position:relative;z-index:1}
+.tcard:active{transform:scale(.97)}
+.tcard .ti{font-size:62px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
+.tcard b{font-size:32px;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:0 3px 0 var(--ink)}
+.tcard .td{font-size:16px;font-weight:500;line-height:1.35;max-width:340px;text-shadow:0 1px 0 rgba(0,0,0,.3)}
+.tcard .trw{font-weight:700;font-size:17px;background:rgba(0,0,0,.28);border-radius:14px;padding:5px 12px}
+.tbo{background:linear-gradient(160deg,#3cb43a,#1f8f3a)}.tking{background:linear-gradient(160deg,#ffcf2e,#f08a00 60%,#c2410c)}
+.srch{font-size:76px;animation:srch 1.6s ease-in-out infinite;display:inline-block}
+@keyframes srch{0%,100%{transform:translate(-14px,0) rotate(-12deg)}50%{transform:translate(14px,-6px) rotate(12deg)}}
+.series{font-size:44px;font-weight:700;margin:4px 0;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;color:var(--yellow);text-shadow:0 3px 0 var(--ink)}
+.screen:not(#home)>.title{margin-top:64px}
+.rwd{background:#fff3c4;border:3px solid var(--ink);border-radius:16px;padding:8px 12px;font-weight:700;font-size:18px}
 </style>
 </head>
 <body class="onhome">
@@ -229,14 +260,19 @@ html[dir=ltr] .hme{padding:2px 2px 2px 12px}
     <div class="hlv"><div class="hstar"><span id="hLv">1</span></div><div class="hprog"><i id="hFill"></i><b id="hPts">0</b></div></div>
     <div class="hcoin" id="hCoin">💰 0</div>
   </div>
-  <div class="title" id="title"></div>
+  <div class="hlogo"><svg class="emblem" viewBox="0 0 120 120"><defs><clipPath id="ca"><rect x="17" y="16" width="66" height="44" rx="9"/></clipPath><clipPath id="cb"><rect x="37" y="60" width="66" height="44" rx="9"/></clipPath><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#ffb72e"/></linearGradient></defs><rect x="5" y="5" width="110" height="110" rx="30" fill="url(#bg)" stroke="#26213a" stroke-width="6"/><g clip-path="url(#ca)"><rect x="17" y="16" width="66" height="44" fill="#8fdcff"/><circle cx="33" cy="30" r="7" fill="#ffd84d"/><path d="M15 62l20-17 13 9 16-13 22 21z" fill="#3ccf7a"/><path d="M58 30c3-4 9-4 11 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></g><rect x="17" y="16" width="66" height="44" rx="9" fill="none" stroke="#26213a" stroke-width="5"/><g clip-path="url(#cb)"><rect x="37" y="60" width="66" height="44" fill="#8fdcff"/><circle cx="53" cy="74" r="7" fill="#ff6fa8"/><path d="M35 106l20-17 13 9 16-13 22 21z" fill="#3ccf7a"/></g><rect x="37" y="60" width="66" height="44" rx="9" fill="none" stroke="#26213a" stroke-width="5"/><path d="M66 70l14 14" stroke="#26213a" stroke-width="15" stroke-linecap="round" transform="translate(12 12)"/><path d="M66 70l14 14" stroke="#ff4d5e" stroke-width="8" stroke-linecap="round" transform="translate(12 12)"/><circle cx="62" cy="66" r="19" fill="rgba(255,255,255,.35)" stroke="#26213a" stroke-width="7"/><circle cx="62" cy="66" r="19" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="14 106" transform="rotate(200 62 66)"/><circle cx="53" cy="74" r="11" fill="none" stroke="#ff4d5e" stroke-width="0"/></svg><div class="title" id="title"></div></div>
   <div class="cards">
-    <button class="card cr" id="bSolo"><span class="ci">🔍</span><span class="ct" data-i18n="cPlay"></span><span class="cs" id="cLv"></span></button>
-    <button class="card cg" id="bMap"><span class="ci">🗺️</span><span class="ct" data-i18n="cMap"></span><span class="cs" id="cStars"></span></button>
-    <button class="card cb" id="bDuel"><span class="ci">⚔️</span><span class="ct" data-i18n="cDuel"></span><span class="cs">Online</span></button>
-    <button class="card cy" id="bFriend"><span class="ci">🤝</span><span class="ct" data-i18n="cJoin"></span><span class="cs" data-i18n="cJoinSub"></span></button>
+    <button class="mcard cr wide" id="bSolo"><span class="ci">🔍</span><span class="cw"><span class="ct" data-i18n="cPlay"></span><span class="cs" id="cLv"></span></span></button>
+    <button class="mcard cg" id="bMap"><span class="ci">🗺️</span><span class="ct" data-i18n="cMap"></span><span class="cs" id="cStars"></span></button>
+    <button class="mcard cb" id="bOnline"><span class="ci">🌍</span><span class="ct" data-i18n="cOnline"></span><span class="cs" data-i18n="cOnlineSub"></span></button>
+    <button class="mcard cy" id="bTourn"><span class="ci">🏆</span><span class="ct" data-i18n="cTourn"></span><span class="cs" data-i18n="cTournSub"></span></button>
+    <button class="mcard cp" id="bFriend"><span class="ci">🤝</span><span class="ct" data-i18n="cFriends"></span><span class="cs" data-i18n="cFriendsSub"></span></button>
   </div>
-  <div class="row joinrow" id="joinRow"><input id="codeIn" class="txt" style="width:150px;direction:ltr;letter-spacing:3px" maxlength="8" data-i18n-ph="codePh" autocomplete="off"><button class="btn sm g" id="bJoin" data-i18n="join"></button></div>
+  <div class="panel col friendbox" id="joinRow">
+    <button class="btn p" id="bDuel" data-i18n="createInvite"></button>
+    <div class="note" data-i18n="orCode"></div>
+    <div class="row"><input id="codeIn" class="txt" style="width:150px;direction:ltr;letter-spacing:3px" maxlength="8" data-i18n-ph="codePh" autocomplete="off"><button class="btn sm g" id="bJoin" data-i18n="join"></button></div>
+  </div>
   <div class="hdur"><div class="tlabel" data-i18n="timePer"></div><div class="chips" id="durSolo"></div></div>
   <div class="hround">
     <button class="rb" id="hSet" aria-label="settings"><svg viewBox="0 0 24 24" width="32" height="32" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3h-4l-.4 2.9a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 21h4l.4-2.9c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
@@ -285,10 +321,20 @@ html[dir=ltr] .hme{padding:2px 2px 2px 12px}
 
 <!-- LOBBY -->
 <section id="lobby" class="screen">
-  <div class="title" style="font-size:44px"><span style="color:var(--pink)" data-i18n="duelTitle"></span></div>
+  <div class="title" style="font-size:44px"><span style="color:var(--pink)" id="lobbyTitle"></span></div>
   <div class="col" style="margin-top:14px">
     <div id="lobbyBody" class="panel col"></div>
     <button class="btn sm w" id="bLeave" data-i18n="backMenu"></button>
+  </div>
+</section>
+
+<!-- TOURNAMENTS -->
+<section id="tourn" class="screen">
+  <div class="title" style="font-size:42px"><span style="color:var(--orange)" data-i18n="tournTitle"></span></div>
+  <div class="col" style="margin-top:16px;gap:20px">
+    <button class="tcard tbo" id="tBo5"><span class="ti">🥇</span><b data-i18n="bo5Name"></b><span class="td" data-i18n="bo5Desc"></span><span class="trw" id="bo5Rw"></span></button>
+    <button class="tcard tking" id="tKing"><span class="ti">👑</span><b data-i18n="kingName"></b><span class="td" data-i18n="kingDesc"></span><span class="trw" id="kingRw"></span></button>
+    <button class="btn sm w" id="tnBack" data-i18n="backMenu"></button>
   </div>
 </section>
 
@@ -342,6 +388,7 @@ html[dir=ltr] .hme{padding:2px 2px 2px 12px}
   <div class="note" id="credit" style="margin-top:8px;visibility:hidden"><a href="https://unsplash.com/" target="_blank" rel="noopener" style="color:inherit">📷 Unsplash</a></div>
 </section>
 
+<button class="navback" id="navBack" aria-label="back"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M9 5l7 7-7 7" fill="none" stroke="#26213a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <div class="ov" id="ov"><div class="card" id="ovCard"></div></div>
 <div class="toast" id="toast"></div>
 
@@ -369,7 +416,7 @@ he:{dir:"rtl",langName:"עברית",flag:"🇮🇱",
  rematch:"🔁 משחק חוזר",readyMore:"🔁 אני מוכן לעוד!",waitingHost:"מחכה למארח… ⏳",edit:"✏️ ערוך",chooseNameAv:"בחר שם ותמונה",upload:"📷<br>העלה",saved:"נשמר! 🎉",needProfile:"קודם בוחרים שם ותמונה 🙂",
  loading:"טוען… ⏳",wins:"ניצחונות",losses:"הפסדים",noGames_day:"עוד אין דו־קרבות היום.",noGames_week:"עוד אין דו־קרבות השבוע.",noGames_month:"עוד אין דו־קרבות החודש.",beFirst:"תהיה הראשון! ⚔️",
  notPlayed_day:"עוד לא שיחקת דו־קרב היום",notPlayed_week:"עוד לא שיחקת דו־קרב השבוע",notPlayed_month:"עוד לא שיחקת דו־קרב החודש",typeCode:"הקלד קוד חדר",
- invited:"הוזמנת לדו־קרב! ⚔️",invitedNote:"בחר שם ותמונה ויאללה לשחק",letsGo:"בוא נתחיל!",netRe:"מתחבר מחדש…",toastPhoto:"מצא {n} הבדלים + 🎁 בונוס",loadingImg:"טוען תמונה…",preparing:"מכין תמונות… 📷",levelsTitle:"🗺️ מפת שלבים",continueLv:"▶ המשך – שלב {n}",allDone:"🏆 סיימת את כל 200 השלבים!",hintCoins:"💡 רמז 💰{n}",timeCoins:"⏱️ +{s} שנ׳ 💰{n}",notEnough:"אין מספיק מטבעות 💰",timeAdded:"+{s} שניות ⏱️",chalTitle:"שלב אתגר!",chalDesc:"תמונה קשה במיוחד: מצא 5 הבדלים בדקה אחת. מצליחים? מקבלים {p} נקודות ו‑💰{c} מטבעות לרמזים ולתוספת זמן בשלבים הבאים!",chalStart:"יאללה, לאתגר! 🎯",skipChal:"דלג לעכשיו",chalWin:"🎉 עברת את האתגר!",chalFail:"😅 האתגר לא הצליח הפעם",chalLabel:"🎯 אתגר {n}",chalToast:"🎯 אתגר! מצא 5 הבדלים בדקה",chalRetryLater:"אפשר לנסות שוב בכל זמן ממפת השלבים",earned:"💰 +{n}",retry:"נסה שוב",mapBtn:"🗺️ מפת שלבים",levelFailed:"צריך עוד קצת כדי לעבור – נסה שוב!",homeStats:"⭐ {s} · 💰 {c} · שלב {n}",allTime:"כל הזמנים",h2h:"📊 המאזן שלך מול {name}: {w} ניצחונות · {l} הפסדים · {t} תיקו",recTitle:"🔑 קוד שחזור",recNote:"ההתקדמות נשמרת אוטומטית. כדי להמשיך מאותו מקום בטלפון אחר, או אם הנתונים נמחקו – שמור את הקוד הזה (ואל תשתף אותו).",recCopy:"📋 העתק קוד",recPh:"הדבק קוד שחזור",recBtn:"שחזר",recDone:"ההתקדמות שוחזרה! 🎉",recBad:"הקוד לא נמצא – בדוק שהעתקת אותו נכון",recCopied:"הקוד הועתק – שמור אותו במקום בטוח 🔑",noGames_all:"עוד אין דו־קרבות.",notPlayed_all:"עוד לא שיחקת דו־קרב",cPlay:"שחק",cLevel:"שלב {n}",cMap:"מפת שלבים",cDuel:"דו־קרב",cJoin:"עם חבר",cJoinSub:"הצטרף בקוד",player:"שחקן",on:"פועל",off:"כבוי"},
+ invited:"הוזמנת לדו־קרב! ⚔️",invitedNote:"בחר שם ותמונה ויאללה לשחק",letsGo:"בוא נתחיל!",netRe:"מתחבר מחדש…",toastPhoto:"מצא {n} הבדלים + 🎁 בונוס",loadingImg:"טוען תמונה…",preparing:"מכין תמונות… 📷",levelsTitle:"🗺️ מפת שלבים",continueLv:"▶ המשך – שלב {n}",allDone:"🏆 סיימת את כל 200 השלבים!",hintCoins:"💡 רמז 💰{n}",timeCoins:"⏱️ +{s} שנ׳ 💰{n}",notEnough:"אין מספיק מטבעות 💰",timeAdded:"+{s} שניות ⏱️",chalTitle:"שלב אתגר!",chalDesc:"תמונה קשה במיוחד: מצא 5 הבדלים בדקה אחת. מצליחים? מקבלים {p} נקודות ו‑💰{c} מטבעות לרמזים ולתוספת זמן בשלבים הבאים!",chalStart:"יאללה, לאתגר! 🎯",skipChal:"דלג לעכשיו",chalWin:"🎉 עברת את האתגר!",chalFail:"😅 האתגר לא הצליח הפעם",chalLabel:"🎯 אתגר {n}",chalToast:"🎯 אתגר! מצא 5 הבדלים בדקה",chalRetryLater:"אפשר לנסות שוב בכל זמן ממפת השלבים",earned:"💰 +{n}",retry:"נסה שוב",mapBtn:"🗺️ מפת שלבים",levelFailed:"צריך עוד קצת כדי לעבור – נסה שוב!",homeStats:"⭐ {s} · 💰 {c} · שלב {n}",allTime:"כל הזמנים",h2h:"📊 המאזן שלך מול {name}: {w} ניצחונות · {l} הפסדים · {t} תיקו",recTitle:"🔑 קוד שחזור",recNote:"ההתקדמות נשמרת אוטומטית. כדי להמשיך מאותו מקום בטלפון אחר, או אם הנתונים נמחקו – שמור את הקוד הזה (ואל תשתף אותו).",recCopy:"📋 העתק קוד",recPh:"הדבק קוד שחזור",recBtn:"שחזר",recDone:"ההתקדמות שוחזרה! 🎉",recBad:"הקוד לא נמצא – בדוק שהעתקת אותו נכון",recCopied:"הקוד הועתק – שמור אותו במקום בטוח 🔑",noGames_all:"עוד אין דו־קרבות.",notPlayed_all:"עוד לא שיחקת דו־קרב",cPlay:"שחק",cLevel:"שלב {n}",cMap:"מפת שלבים",cDuel:"דו־קרב",cJoin:"עם חבר",cJoinSub:"הצטרף בקוד",cOnline:"אונליין",cOnlineSub:"יריב אקראי",cTourn:"טורנירים",cTournSub:"הטוב מ־5 · המלך",cFriends:"עם חברים",cFriendsSub:"הזמנה או קוד",createInvite:"🔗 צור הזמנה לחבר",orCode:"או הצטרף עם קוד שקיבלת:",tournTitle:"🏆 טורנירים",bo5Name:"הטוב מ־5",bo5Desc:"5 תמונות מול יריב אקראי. כל תמונה היא סיבוב – מי שמנצח ראשון ב־3 סיבובים לוקח את הטורניר!",kingName:"טורניר המלך",kingDesc:"רמה קשה במיוחד: 6 הבדלים זעירים ודקה אחת לכל תמונה. רק אלופים אמיתיים שורדים!",rewardLine:"🎁 פרס לזוכה: 💰 {c} · ⭐ {p} נקודות",rewardWon:"🎁 זכית ב־{c} 💰 וב־{p} נקודות!",searching:"מחפש יריב פנוי…",searchSec:"⏱️ {n} שניות",cancel:"ביטול",searchTip:"אין עכשיו הרבה שחקנים מחוברים – אפשר גם להזמין חבר מהמסך הראשי 🤝",foundRival:"נמצא יריב! 🎉",startingSoon:"המשחק מתחיל עוד רגע…",newRival:"🔎 יריב חדש",modeQuick:"⚡ משחק אונליין",bo5Title:"🥇 הטוב מ־5",kingTitle:"👑 טורניר המלך",seriesNote:"מאזן הסיבובים (את/ה : היריב)",kingWin:"👑 אתה המלך!",player:"שחקן",on:"פועל",off:"כבוי"},
 
 en:{dir:"ltr",langName:"English",flag:"🇬🇧",
  docTitle:"Spot the Difference – Duel",title1:"Spot the",title2:"Difference",sub:"Two pictures · tiny differences · the clock is ticking ⏱️",
@@ -392,7 +439,7 @@ en:{dir:"ltr",langName:"English",flag:"🇬🇧",
  rematch:"🔁 Rematch",readyMore:"🔁 I’m up for another!",waitingHost:"Waiting for the host… ⏳",edit:"✏️ Edit",chooseNameAv:"Pick a name & picture",upload:"📷<br>Upload",saved:"Saved! 🎉",needProfile:"First pick a name and picture 🙂",
  loading:"Loading… ⏳",wins:"Wins",losses:"Losses",noGames_day:"No duels today yet.",noGames_week:"No duels this week yet.",noGames_month:"No duels this month yet.",beFirst:"Be the first! ⚔️",
  notPlayed_day:"You haven’t played a duel today",notPlayed_week:"You haven’t played a duel this week",notPlayed_month:"You haven’t played a duel this month",typeCode:"Type a room code",
- invited:"You’ve been invited to a duel! ⚔️",invitedNote:"Pick a name and picture and let’s play",letsGo:"Let’s go!",netRe:"Reconnecting…",toastPhoto:"Find {n} differences + 🎁 bonus",loadingImg:"Loading picture…",preparing:"Preparing pictures… 📷",levelsTitle:"🗺️ Level map",continueLv:"▶ Continue – level {n}",allDone:"🏆 You finished all 200 levels!",hintCoins:"💡 Hint 💰{n}",timeCoins:"⏱️ +{s}s 💰{n}",notEnough:"Not enough coins 💰",timeAdded:"+{s} seconds ⏱️",chalTitle:"Challenge stage!",chalDesc:"An extra-hard picture: find 5 differences in one minute. Make it and you get {p} points plus 💰{c} coins for hints and extra time later on!",chalStart:"Bring it on! 🎯",skipChal:"Skip for now",chalWin:"🎉 Challenge complete!",chalFail:"😅 Not this time",chalLabel:"🎯 Challenge {n}",chalToast:"🎯 Challenge! Find 5 differences in a minute",chalRetryLater:"You can retry anytime from the level map",earned:"💰 +{n}",retry:"Try again",mapBtn:"🗺️ Level map",levelFailed:"Almost – try again!",homeStats:"⭐ {s} · 💰 {c} · level {n}",allTime:"All time",h2h:"📊 Your record vs {name}: {w} wins · {l} losses · {t} ties",recTitle:"🔑 Recovery code",recNote:"Progress is saved automatically. To continue on another phone, or if your data gets wiped – keep this code (and don’t share it).",recCopy:"📋 Copy code",recPh:"Paste a recovery code",recBtn:"Restore",recDone:"Progress restored! 🎉",recBad:"Code not found – check you copied it correctly",recCopied:"Code copied – keep it somewhere safe 🔑",noGames_all:"No duels yet.",notPlayed_all:"You haven’t played a duel yet",cPlay:"Play",cLevel:"Level {n}",cMap:"Level map",cDuel:"Duel",cJoin:"With a friend",cJoinSub:"Join by code",player:"Player",on:"On",off:"Off"},
+ invited:"You’ve been invited to a duel! ⚔️",invitedNote:"Pick a name and picture and let’s play",letsGo:"Let’s go!",netRe:"Reconnecting…",toastPhoto:"Find {n} differences + 🎁 bonus",loadingImg:"Loading picture…",preparing:"Preparing pictures… 📷",levelsTitle:"🗺️ Level map",continueLv:"▶ Continue – level {n}",allDone:"🏆 You finished all 200 levels!",hintCoins:"💡 Hint 💰{n}",timeCoins:"⏱️ +{s}s 💰{n}",notEnough:"Not enough coins 💰",timeAdded:"+{s} seconds ⏱️",chalTitle:"Challenge stage!",chalDesc:"An extra-hard picture: find 5 differences in one minute. Make it and you get {p} points plus 💰{c} coins for hints and extra time later on!",chalStart:"Bring it on! 🎯",skipChal:"Skip for now",chalWin:"🎉 Challenge complete!",chalFail:"😅 Not this time",chalLabel:"🎯 Challenge {n}",chalToast:"🎯 Challenge! Find 5 differences in a minute",chalRetryLater:"You can retry anytime from the level map",earned:"💰 +{n}",retry:"Try again",mapBtn:"🗺️ Level map",levelFailed:"Almost – try again!",homeStats:"⭐ {s} · 💰 {c} · level {n}",allTime:"All time",h2h:"📊 Your record vs {name}: {w} wins · {l} losses · {t} ties",recTitle:"🔑 Recovery code",recNote:"Progress is saved automatically. To continue on another phone, or if your data gets wiped – keep this code (and don’t share it).",recCopy:"📋 Copy code",recPh:"Paste a recovery code",recBtn:"Restore",recDone:"Progress restored! 🎉",recBad:"Code not found – check you copied it correctly",recCopied:"Code copied – keep it somewhere safe 🔑",noGames_all:"No duels yet.",notPlayed_all:"You haven’t played a duel yet",cPlay:"Play",cLevel:"Level {n}",cMap:"Level map",cDuel:"Duel",cJoin:"With a friend",cJoinSub:"Join by code",cOnline:"Online",cOnlineSub:"Random rival",cTourn:"Tournaments",cTournSub:"Best of 5 · King",cFriends:"With friends",cFriendsSub:"Invite or code",createInvite:"🔗 Create an invite",orCode:"or join with a code you got:",tournTitle:"🏆 Tournaments",bo5Name:"Best of 5",bo5Desc:"5 pictures against a random rival. Each picture is a round – the first to win 3 rounds takes the tournament!",kingName:"King's Tournament",kingDesc:"Extra hard: 6 tiny differences and one minute per picture. Only true champions survive!",rewardLine:"🎁 Winner's prize: 💰 {c} · ⭐ {p} points",rewardWon:"🎁 You won {c} 💰 and {p} points!",searching:"Looking for a free rival…",searchSec:"⏱️ {n} seconds",cancel:"Cancel",searchTip:"Not many players online right now – you can also invite a friend from the main screen 🤝",foundRival:"Rival found! 🎉",startingSoon:"The game starts in a moment…",newRival:"🔎 New rival",modeQuick:"⚡ Online match",bo5Title:"🥇 Best of 5",kingTitle:"👑 King's Tournament",seriesNote:"Rounds won (you : rival)",kingWin:"👑 You are the King!",player:"Player",on:"On",off:"Off"},
 
 fr:{dir:"ltr",langName:"Français",flag:"🇫🇷",
  docTitle:"Jeu des différences – Duel",title1:"Trouve les",title2:"Différences",sub:"Deux images · de petites différences · le temps presse ⏱️",
@@ -415,7 +462,7 @@ fr:{dir:"ltr",langName:"Français",flag:"🇫🇷",
  rematch:"🔁 Revanche",readyMore:"🔁 Je suis prêt pour une autre !",waitingHost:"En attente de l’hôte… ⏳",edit:"✏️ Modifier",chooseNameAv:"Choisis un pseudo et une image",upload:"📷<br>Photo",saved:"Enregistré ! 🎉",needProfile:"Choisis d’abord un pseudo et une image 🙂",
  loading:"Chargement… ⏳",wins:"Victoires",losses:"Défaites",noGames_day:"Pas encore de duel aujourd’hui.",noGames_week:"Pas encore de duel cette semaine.",noGames_month:"Pas encore de duel ce mois-ci.",beFirst:"Sois le premier ! ⚔️",
  notPlayed_day:"Tu n’as pas encore joué de duel aujourd’hui",notPlayed_week:"Tu n’as pas encore joué de duel cette semaine",notPlayed_month:"Tu n’as pas encore joué de duel ce mois-ci",typeCode:"Saisis un code",
- invited:"Tu es invité à un duel ! ⚔️",invitedNote:"Choisis un pseudo et une image, et c’est parti",letsGo:"C’est parti !",netRe:"Reconnexion…",toastPhoto:"Trouve {n} différences + 🎁 bonus",loadingImg:"Chargement de l’image…",preparing:"Préparation des images… 📷",levelsTitle:"🗺️ Carte des niveaux",continueLv:"▶ Continuer – niveau {n}",allDone:"🏆 Tu as fini les 200 niveaux !",hintCoins:"💡 Indice 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"Pas assez de pièces 💰",timeAdded:"+{s} secondes ⏱️",chalTitle:"Niveau défi !",chalDesc:"Une image très difficile : trouve 5 différences en une minute. Réussi ? Tu gagnes {p} points et 💰{c} pièces pour des indices et du temps en plus !",chalStart:"Relever le défi ! 🎯",skipChal:"Plus tard",chalWin:"🎉 Défi réussi !",chalFail:"😅 Pas cette fois",chalLabel:"🎯 Défi {n}",chalToast:"🎯 Défi ! Trouve 5 différences en une minute",chalRetryLater:"Tu peux réessayer à tout moment depuis la carte",earned:"💰 +{n}",retry:"Réessayer",mapBtn:"🗺️ Carte des niveaux",levelFailed:"Presque – réessaie !",homeStats:"⭐ {s} · 💰 {c} · niveau {n}",allTime:"Depuis toujours",h2h:"📊 Ton bilan contre {name} : {w} victoires · {l} défaites · {t} nuls",recTitle:"🔑 Code de récupération",recNote:"La progression est sauvegardée automatiquement. Pour continuer sur un autre téléphone, ou si tes données sont effacées – garde ce code (et ne le partage pas).",recCopy:"📋 Copier le code",recPh:"Colle un code de récupération",recBtn:"Restaurer",recDone:"Progression restaurée ! 🎉",recBad:"Code introuvable – vérifie la copie",recCopied:"Code copié – garde-le en lieu sûr 🔑",noGames_all:"Pas encore de duel.",notPlayed_all:"Tu n’as pas encore joué de duel",cPlay:"Jouer",cLevel:"Niveau {n}",cMap:"Carte",cDuel:"Duel",cJoin:"Avec un ami",cJoinSub:"Rejoindre par code",player:"Joueur",on:"Activé",off:"Désactivé"},
+ invited:"Tu es invité à un duel ! ⚔️",invitedNote:"Choisis un pseudo et une image, et c’est parti",letsGo:"C’est parti !",netRe:"Reconnexion…",toastPhoto:"Trouve {n} différences + 🎁 bonus",loadingImg:"Chargement de l’image…",preparing:"Préparation des images… 📷",levelsTitle:"🗺️ Carte des niveaux",continueLv:"▶ Continuer – niveau {n}",allDone:"🏆 Tu as fini les 200 niveaux !",hintCoins:"💡 Indice 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"Pas assez de pièces 💰",timeAdded:"+{s} secondes ⏱️",chalTitle:"Niveau défi !",chalDesc:"Une image très difficile : trouve 5 différences en une minute. Réussi ? Tu gagnes {p} points et 💰{c} pièces pour des indices et du temps en plus !",chalStart:"Relever le défi ! 🎯",skipChal:"Plus tard",chalWin:"🎉 Défi réussi !",chalFail:"😅 Pas cette fois",chalLabel:"🎯 Défi {n}",chalToast:"🎯 Défi ! Trouve 5 différences en une minute",chalRetryLater:"Tu peux réessayer à tout moment depuis la carte",earned:"💰 +{n}",retry:"Réessayer",mapBtn:"🗺️ Carte des niveaux",levelFailed:"Presque – réessaie !",homeStats:"⭐ {s} · 💰 {c} · niveau {n}",allTime:"Depuis toujours",h2h:"📊 Ton bilan contre {name} : {w} victoires · {l} défaites · {t} nuls",recTitle:"🔑 Code de récupération",recNote:"La progression est sauvegardée automatiquement. Pour continuer sur un autre téléphone, ou si tes données sont effacées – garde ce code (et ne le partage pas).",recCopy:"📋 Copier le code",recPh:"Colle un code de récupération",recBtn:"Restaurer",recDone:"Progression restaurée ! 🎉",recBad:"Code introuvable – vérifie la copie",recCopied:"Code copié – garde-le en lieu sûr 🔑",noGames_all:"Pas encore de duel.",notPlayed_all:"Tu n’as pas encore joué de duel",cPlay:"Jouer",cLevel:"Niveau {n}",cMap:"Carte",cDuel:"Duel",cJoin:"Avec un ami",cJoinSub:"Rejoindre par code",cOnline:"En ligne",cOnlineSub:"Adversaire aléatoire",cTourn:"Tournois",cTournSub:"Meilleur des 5 · Roi",cFriends:"Entre amis",cFriendsSub:"Invitation ou code",createInvite:"🔗 Créer une invitation",orCode:"ou rejoins avec un code reçu :",tournTitle:"🏆 Tournois",bo5Name:"Meilleur des 5",bo5Desc:"5 images contre un adversaire aléatoire. Chaque image est une manche – le premier à 3 manches gagne le tournoi !",kingName:"Tournoi du Roi",kingDesc:"Très difficile : 6 minuscules différences et une minute par image. Seuls les vrais champions survivent !",rewardLine:"🎁 Prix du gagnant : 💰 {c} · ⭐ {p} points",rewardWon:"🎁 Tu gagnes {c} 💰 et {p} points !",searching:"Recherche d’un adversaire libre…",searchSec:"⏱️ {n} secondes",cancel:"Annuler",searchTip:"Peu de joueurs en ligne en ce moment – tu peux aussi inviter un ami depuis l’écran principal 🤝",foundRival:"Adversaire trouvé ! 🎉",startingSoon:"La partie commence dans un instant…",newRival:"🔎 Nouvel adversaire",modeQuick:"⚡ Partie en ligne",bo5Title:"🥇 Meilleur des 5",kingTitle:"👑 Tournoi du Roi",seriesNote:"Manches gagnées (toi : adversaire)",kingWin:"👑 Tu es le Roi !",player:"Joueur",on:"Activé",off:"Désactivé"},
 
 it:{dir:"ltr",langName:"Italiano",flag:"🇮🇹",
  docTitle:"Trova le differenze – Sfida",title1:"Trova le",title2:"Differenze",sub:"Due immagini · piccole differenze · il tempo scorre ⏱️",
@@ -438,7 +485,7 @@ it:{dir:"ltr",langName:"Italiano",flag:"🇮🇹",
  rematch:"🔁 Rivincita",readyMore:"🔁 Sono pronto per un’altra!",waitingHost:"In attesa dell’host… ⏳",edit:"✏️ Modifica",chooseNameAv:"Scegli nome e immagine",upload:"📷<br>Carica",saved:"Salvato! 🎉",needProfile:"Prima scegli nome e immagine 🙂",
  loading:"Caricamento… ⏳",wins:"Vittorie",losses:"Sconfitte",noGames_day:"Ancora nessuna sfida oggi.",noGames_week:"Ancora nessuna sfida questa settimana.",noGames_month:"Ancora nessuna sfida questo mese.",beFirst:"Sii il primo! ⚔️",
  notPlayed_day:"Non hai ancora giocato una sfida oggi",notPlayed_week:"Non hai ancora giocato una sfida questa settimana",notPlayed_month:"Non hai ancora giocato una sfida questo mese",typeCode:"Scrivi un codice",
- invited:"Sei stato sfidato! ⚔️",invitedNote:"Scegli nome e immagine e si gioca",letsGo:"Andiamo!",netRe:"Riconnessione…",toastPhoto:"Trova {n} differenze + 🎁 bonus",loadingImg:"Carico l’immagine…",preparing:"Preparo le immagini… 📷",levelsTitle:"🗺️ Mappa dei livelli",continueLv:"▶ Continua – livello {n}",allDone:"🏆 Hai finito tutti i 200 livelli!",hintCoins:"💡 Aiuto 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"Monete insufficienti 💰",timeAdded:"+{s} secondi ⏱️",chalTitle:"Livello sfida!",chalDesc:"Un’immagine difficilissima: trova 5 differenze in un minuto. Ce la fai? Ricevi {p} punti e 💰{c} monete per aiuti e tempo extra!",chalStart:"Accetto la sfida! 🎯",skipChal:"Più tardi",chalWin:"🎉 Sfida superata!",chalFail:"😅 Non questa volta",chalLabel:"🎯 Sfida {n}",chalToast:"🎯 Sfida! Trova 5 differenze in un minuto",chalRetryLater:"Puoi riprovare quando vuoi dalla mappa",earned:"💰 +{n}",retry:"Riprova",mapBtn:"🗺️ Mappa dei livelli",levelFailed:"Quasi – riprova!",homeStats:"⭐ {s} · 💰 {c} · livello {n}",allTime:"Sempre",h2h:"📊 Il tuo bilancio contro {name}: {w} vittorie · {l} sconfitte · {t} pareggi",recTitle:"🔑 Codice di recupero",recNote:"I progressi si salvano da soli. Per continuare su un altro telefono, o se i dati vengono cancellati – conserva questo codice (e non condividerlo).",recCopy:"📋 Copia codice",recPh:"Incolla un codice di recupero",recBtn:"Ripristina",recDone:"Progressi ripristinati! 🎉",recBad:"Codice non trovato – controlla di averlo copiato bene",recCopied:"Codice copiato – conservalo al sicuro 🔑",noGames_all:"Ancora nessuna sfida.",notPlayed_all:"Non hai ancora giocato una sfida",cPlay:"Gioca",cLevel:"Livello {n}",cMap:"Mappa",cDuel:"Sfida",cJoin:"Con un amico",cJoinSub:"Entra con codice",player:"Giocatore",on:"Attivo",off:"Spento"},
+ invited:"Sei stato sfidato! ⚔️",invitedNote:"Scegli nome e immagine e si gioca",letsGo:"Andiamo!",netRe:"Riconnessione…",toastPhoto:"Trova {n} differenze + 🎁 bonus",loadingImg:"Carico l’immagine…",preparing:"Preparo le immagini… 📷",levelsTitle:"🗺️ Mappa dei livelli",continueLv:"▶ Continua – livello {n}",allDone:"🏆 Hai finito tutti i 200 livelli!",hintCoins:"💡 Aiuto 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"Monete insufficienti 💰",timeAdded:"+{s} secondi ⏱️",chalTitle:"Livello sfida!",chalDesc:"Un’immagine difficilissima: trova 5 differenze in un minuto. Ce la fai? Ricevi {p} punti e 💰{c} monete per aiuti e tempo extra!",chalStart:"Accetto la sfida! 🎯",skipChal:"Più tardi",chalWin:"🎉 Sfida superata!",chalFail:"😅 Non questa volta",chalLabel:"🎯 Sfida {n}",chalToast:"🎯 Sfida! Trova 5 differenze in un minuto",chalRetryLater:"Puoi riprovare quando vuoi dalla mappa",earned:"💰 +{n}",retry:"Riprova",mapBtn:"🗺️ Mappa dei livelli",levelFailed:"Quasi – riprova!",homeStats:"⭐ {s} · 💰 {c} · livello {n}",allTime:"Sempre",h2h:"📊 Il tuo bilancio contro {name}: {w} vittorie · {l} sconfitte · {t} pareggi",recTitle:"🔑 Codice di recupero",recNote:"I progressi si salvano da soli. Per continuare su un altro telefono, o se i dati vengono cancellati – conserva questo codice (e non condividerlo).",recCopy:"📋 Copia codice",recPh:"Incolla un codice di recupero",recBtn:"Ripristina",recDone:"Progressi ripristinati! 🎉",recBad:"Codice non trovato – controlla di averlo copiato bene",recCopied:"Codice copiato – conservalo al sicuro 🔑",noGames_all:"Ancora nessuna sfida.",notPlayed_all:"Non hai ancora giocato una sfida",cPlay:"Gioca",cLevel:"Livello {n}",cMap:"Mappa",cDuel:"Sfida",cJoin:"Con un amico",cJoinSub:"Entra con codice",cOnline:"Online",cOnlineSub:"Avversario casuale",cTourn:"Tornei",cTournSub:"Al meglio di 5 · Re",cFriends:"Con amici",cFriendsSub:"Invito o codice",createInvite:"🔗 Crea un invito",orCode:"oppure entra con un codice ricevuto:",tournTitle:"🏆 Tornei",bo5Name:"Al meglio di 5",bo5Desc:"5 immagini contro un avversario casuale. Ogni immagine è un round – chi vince per primo 3 round vince il torneo!",kingName:"Torneo del Re",kingDesc:"Difficilissimo: 6 differenze minuscole e un minuto per immagine. Solo i veri campioni sopravvivono!",rewardLine:"🎁 Premio al vincitore: 💰 {c} · ⭐ {p} punti",rewardWon:"🎁 Hai vinto {c} 💰 e {p} punti!",searching:"Cerco un avversario libero…",searchSec:"⏱️ {n} secondi",cancel:"Annulla",searchTip:"Ora ci sono pochi giocatori online – puoi anche invitare un amico dalla schermata principale 🤝",foundRival:"Avversario trovato! 🎉",startingSoon:"La partita inizia tra un attimo…",newRival:"🔎 Nuovo avversario",modeQuick:"⚡ Partita online",bo5Title:"🥇 Al meglio di 5",kingTitle:"👑 Torneo del Re",seriesNote:"Round vinti (tu : avversario)",kingWin:"👑 Sei il Re!",player:"Giocatore",on:"Attivo",off:"Spento"},
 
 es:{dir:"ltr",langName:"Español",flag:"🇪🇸",
  docTitle:"Encuentra las diferencias – Duelo",title1:"Encuentra las",title2:"Diferencias",sub:"Dos imágenes · pequeñas diferencias · el reloj corre ⏱️",
@@ -461,7 +508,7 @@ es:{dir:"ltr",langName:"Español",flag:"🇪🇸",
  rematch:"🔁 Revancha",readyMore:"🔁 ¡Listo para otra!",waitingHost:"Esperando al anfitrión… ⏳",edit:"✏️ Editar",chooseNameAv:"Elige nombre e imagen",upload:"📷<br>Subir",saved:"¡Guardado! 🎉",needProfile:"Primero elige nombre e imagen 🙂",
  loading:"Cargando… ⏳",wins:"Victorias",losses:"Derrotas",noGames_day:"Aún no hay duelos hoy.",noGames_week:"Aún no hay duelos esta semana.",noGames_month:"Aún no hay duelos este mes.",beFirst:"¡Sé el primero! ⚔️",
  notPlayed_day:"Aún no has jugado un duelo hoy",notPlayed_week:"Aún no has jugado un duelo esta semana",notPlayed_month:"Aún no has jugado un duelo este mes",typeCode:"Escribe un código",
- invited:"¡Te han retado a un duelo! ⚔️",invitedNote:"Elige nombre e imagen y a jugar",letsGo:"¡Vamos!",netRe:"Reconectando…",toastPhoto:"Encuentra {n} diferencias + 🎁 extra",loadingImg:"Cargando imagen…",preparing:"Preparando imágenes… 📷",levelsTitle:"🗺️ Mapa de niveles",continueLv:"▶ Continuar – nivel {n}",allDone:"🏆 ¡Terminaste los 200 niveles!",hintCoins:"💡 Pista 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"No tienes suficientes monedas 💰",timeAdded:"+{s} segundos ⏱️",chalTitle:"¡Nivel reto!",chalDesc:"Una imagen muy difícil: encuentra 5 diferencias en un minuto. ¿Lo logras? ¡Ganas {p} puntos y 💰{c} monedas para pistas y tiempo extra!",chalStart:"¡Acepto el reto! 🎯",skipChal:"Más tarde",chalWin:"🎉 ¡Reto superado!",chalFail:"😅 Esta vez no",chalLabel:"🎯 Reto {n}",chalToast:"🎯 ¡Reto! Encuentra 5 diferencias en un minuto",chalRetryLater:"Puedes reintentarlo cuando quieras desde el mapa",earned:"💰 +{n}",retry:"Reintentar",mapBtn:"🗺️ Mapa de niveles",levelFailed:"¡Casi! Inténtalo de nuevo",homeStats:"⭐ {s} · 💰 {c} · nivel {n}",allTime:"Histórico",h2h:"📊 Tu balance contra {name}: {w} victorias · {l} derrotas · {t} empates",recTitle:"🔑 Código de recuperación",recNote:"El progreso se guarda solo. Para seguir en otro móvil, o si se borran tus datos – guarda este código (y no lo compartas).",recCopy:"📋 Copiar código",recPh:"Pega un código de recuperación",recBtn:"Restaurar",recDone:"¡Progreso restaurado! 🎉",recBad:"Código no encontrado – revisa que esté bien copiado",recCopied:"Código copiado – guárdalo en un lugar seguro 🔑",noGames_all:"Aún no hay duelos.",notPlayed_all:"Aún no has jugado un duelo",cPlay:"Jugar",cLevel:"Nivel {n}",cMap:"Mapa",cDuel:"Duelo",cJoin:"Con un amigo",cJoinSub:"Unirse con código",player:"Jugador",on:"Activado",off:"Desactivado"}
+ invited:"¡Te han retado a un duelo! ⚔️",invitedNote:"Elige nombre e imagen y a jugar",letsGo:"¡Vamos!",netRe:"Reconectando…",toastPhoto:"Encuentra {n} diferencias + 🎁 extra",loadingImg:"Cargando imagen…",preparing:"Preparando imágenes… 📷",levelsTitle:"🗺️ Mapa de niveles",continueLv:"▶ Continuar – nivel {n}",allDone:"🏆 ¡Terminaste los 200 niveles!",hintCoins:"💡 Pista 💰{n}",timeCoins:"⏱️ +{s} s 💰{n}",notEnough:"No tienes suficientes monedas 💰",timeAdded:"+{s} segundos ⏱️",chalTitle:"¡Nivel reto!",chalDesc:"Una imagen muy difícil: encuentra 5 diferencias en un minuto. ¿Lo logras? ¡Ganas {p} puntos y 💰{c} monedas para pistas y tiempo extra!",chalStart:"¡Acepto el reto! 🎯",skipChal:"Más tarde",chalWin:"🎉 ¡Reto superado!",chalFail:"😅 Esta vez no",chalLabel:"🎯 Reto {n}",chalToast:"🎯 ¡Reto! Encuentra 5 diferencias en un minuto",chalRetryLater:"Puedes reintentarlo cuando quieras desde el mapa",earned:"💰 +{n}",retry:"Reintentar",mapBtn:"🗺️ Mapa de niveles",levelFailed:"¡Casi! Inténtalo de nuevo",homeStats:"⭐ {s} · 💰 {c} · nivel {n}",allTime:"Histórico",h2h:"📊 Tu balance contra {name}: {w} victorias · {l} derrotas · {t} empates",recTitle:"🔑 Código de recuperación",recNote:"El progreso se guarda solo. Para seguir en otro móvil, o si se borran tus datos – guarda este código (y no lo compartas).",recCopy:"📋 Copiar código",recPh:"Pega un código de recuperación",recBtn:"Restaurar",recDone:"¡Progreso restaurado! 🎉",recBad:"Código no encontrado – revisa que esté bien copiado",recCopied:"Código copiado – guárdalo en un lugar seguro 🔑",noGames_all:"Aún no hay duelos.",notPlayed_all:"Aún no has jugado un duelo",cPlay:"Jugar",cLevel:"Nivel {n}",cMap:"Mapa",cDuel:"Duelo",cJoin:"Con un amigo",cJoinSub:"Unirse con código",cOnline:"Online",cOnlineSub:"Rival aleatorio",cTourn:"Torneos",cTournSub:"Al mejor de 5 · Rey",cFriends:"Con amigos",cFriendsSub:"Invitación o código",createInvite:"🔗 Crear una invitación",orCode:"o únete con un código que recibiste:",tournTitle:"🏆 Torneos",bo5Name:"Al mejor de 5",bo5Desc:"5 imágenes contra un rival aleatorio. Cada imagen es una ronda – ¡el primero en ganar 3 rondas se lleva el torneo!",kingName:"Torneo del Rey",kingDesc:"Dificilísimo: 6 diferencias diminutas y un minuto por imagen. ¡Solo los verdaderos campeones sobreviven!",rewardLine:"🎁 Premio al ganador: 💰 {c} · ⭐ {p} puntos",rewardWon:"🎁 ¡Ganaste {c} 💰 y {p} puntos!",searching:"Buscando un rival libre…",searchSec:"⏱️ {n} segundos",cancel:"Cancelar",searchTip:"Ahora hay pocos jugadores conectados – también puedes invitar a un amigo desde la pantalla principal 🤝",foundRival:"¡Rival encontrado! 🎉",startingSoon:"La partida empieza en un momento…",newRival:"🔎 Nuevo rival",modeQuick:"⚡ Partida online",bo5Title:"🥇 Al mejor de 5",kingTitle:"👑 Torneo del Rey",seriesNote:"Rondas ganadas (tú : rival)",kingWin:"👑 ¡Eres el Rey!",player:"Jugador",on:"Activado",off:"Desactivado"}
 };
 
 </script>
@@ -471,6 +518,11 @@ es:{dir:"ltr",langName:"Español",flag:"🇪🇸",
 const W=400,H=250,INK='#26213a';
 const DPR=Math.min(window.devicePixelRatio||1,3);
 const DUEL_LEVELS=[8,40,90];
+const MODES={friend:{lv:[8,40,90]},quick:{lv:[8,40,90]},bo5:{lv:[25,60,100,140,180],bo:true},king:{lv:[190,196,200],hard:true}};
+const KING_PARAMS={n:6,rad:21,skip:.45,hueMax:3};
+const REWARD={quick:{c:25,p:250},bo5:{c:150,p:1000},king:{c:500,p:3000}};
+function duelPrm(mode,lv){return MODES[mode]&&MODES[mode].hard?KING_PARAMS:diffParams(lv)}
+function series(ra,rb,n){let wa=0,wb=0;const m=Math.min(ra.length,rb.length,n);for(let i=0;i<m;i++){if(ra[i]>rb[i])wa++;else if(rb[i]>ra[i])wb++}const need=Math.floor(n/2)+1;return{wa,wb,dec:wa>=need?'a':wb>=need?'b':null}}
 const LANGS=['he','en','fr','it','es'];
 let LANG=(()=>{try{const l=localStorage.getItem('sd_lang');if(LANGS.includes(l))return l}catch(e){}const n=(navigator.language||'he').slice(0,2).toLowerCase();return LANGS.includes(n)?n:(n==='iw'?'he':'he')})();
 function t(k,v){const d=window.I18N||{};let s=(d[LANG]&&d[LANG][k]!=null)?d[LANG][k]:(d.en&&d.en[k]!=null?d.en[k]:k);if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s}
@@ -963,14 +1015,14 @@ async function buildPhotoLevel(photoId,planSeed,planLv,prm,plan){
 const cvA=$('cvA'),cvB=$('cvB');[cvA,cvB].forEach(c=>{c.width=W*DPR;c.height=H*DPR});
 let G=null,offA=null,offB=null,lastT=performance.now();
 function newGame(mode,seed,dur){G={mode,seed,dur:DURS.includes(+dur)?+dur:90,levelIdx:0,score:0,running:false,diffs:[],found:new Set(),marks:[],wrongs:[],parts:[],reveal:false,hint:null,done:false,lock:0}}
-function levelNum(){return G.mode==='duel'?DUEL_LEVELS[G.levelIdx]:G.mode==='chal'?G.chal:G.level}
+function levelNum(){return G.mode==='duel'?G.lvs[G.levelIdx]:G.mode==='chal'?G.chal:G.level}
 async function startLevel(){
   const g=G,lv=levelNum(),idx=G.levelIdx;
   G.running=false;G.loadingLv=true;show('game');updPowers();
-  $('lvl').textContent=G.mode==='duel'?t('round',{n:G.levelIdx+1,m:DUEL_LEVELS.length}):G.mode==='chal'?t('chalLabel',{n:G.chal}):t('level',{n:G.level});
+  $('lvl').textContent=G.mode==='duel'?t('round',{n:G.levelIdx+1,m:G.lvs.length}):G.mode==='chal'?t('chalLabel',{n:G.chal}):t('level',{n:G.level});
   $('passbar').classList.remove('on');
   let photoId,prm,planSeed,planLv=lv,plan;
-  if(G.mode==='duel'){photoId=photoIdFor(G.seed,lv);prm=diffParams(lv);planSeed=G.seed;plan=Array.isArray(G.plans)?G.plans[idx]:undefined}
+  if(G.mode==='duel'){photoId=photoIdFor(G.seed,lv);prm=duelPrm(G.dmode,lv);planSeed=G.seed;plan=Array.isArray(G.plans)?G.plans[idx]:undefined}
   else if(G.mode==='chal'){photoId=chalPhoto(G.chal);prm=CHAL_PARAMS;planSeed='chal'}
   else{photoId=campPhoto(G.level);prm=diffParams(G.level);planSeed='camp'}
   let res=null,shownLoading=false;
@@ -982,12 +1034,12 @@ async function startLevel(){
   if(res){offA=res.a;offB=res.b;diffs=res.diffs}
   else{const fl=G.mode==='chal'?Math.min(60,G.chal*5):lv,key=planSeed+'|'+fl,L=genLevel(planSeed+fl,fl);offA=renderOff(L.A,key);offB=renderOff(L.B,key);diffs=L.diffs;theme=L.theme;if(G.mode==='chal')diffs=diffs.slice(0,5)}
   const tm=G.mode==='chal'?CHAL_TIME:G.dur;
-  Object.assign(G,{diffs,need:G.mode==='chal'?diffs.length:diffs.length-1,passed:false,found:new Set(),marks:[],wrongs:[],parts:[],reveal:false,hint:null,timeMax:tm,timeLeft:tm,running:true,loadingLv:false,theme,photo:!!res,levelScore:0});
+  Object.assign(G,{diffs,need:G.mode==='chal'?diffs.length:diffs.length-1,passed:false,found:new Set(),marks:[],wrongs:[],parts:[],reveal:false,hint:null,timeMax:tm,timeLeft:tm,running:true,loadingLv:false,rStart:G.score,theme,photo:!!res,levelScore:0});
   $('credit').style.visibility=res?'visible':'hidden';
   updHud();updPowers();lastT=performance.now();sync(true);
   toast(G.mode==='chal'?t('chalToast'):res?t('toastPhoto',{n:diffs.length-1}):t('toastLevel',{theme:t('th_'+theme),n:diffs.length-1}),2200);
   if(G.mode==='solo'&&G.level<MAX_LEVEL)loadImg(photoUrl(campPhoto(G.level+1))).catch(()=>{});
-  else if(G.mode==='duel'&&Array.isArray(G.plans))for(let i=idx+1;i<DUEL_LEVELS.length;i++)loadImg(photoUrl(photoIdFor(G.seed,DUEL_LEVELS[i]))).catch(()=>{});
+  else if(G.mode==='duel'&&Array.isArray(G.plans))for(let i=idx+1;i<G.lvs.length;i++)loadImg(photoUrl(photoIdFor(G.seed,G.lvs[i]))).catch(()=>{});
 }
 function updPowers(){const on=G&&G.mode!=='duel';$('powers').style.display=on?'flex':'none';if(!on)return;
   $('coinPill').textContent='💰 '+CAMP.coins;$('bHint').textContent=t('hintCoins',{n:HINT_COST});$('bTime').textContent=t('timeCoins',{s:TIME_ADD,n:TIME_COST});
@@ -1020,9 +1072,10 @@ function levelDone(kind){
   const passed=kind!=='time'||G.passed;
   const left=Math.ceil(G.timeLeft);
   const bonus=kind==='all'?left*3:kind==='skip'?left*2:0;
-  const st=kind==='all'?3:kind==='skip'?2:passed?1:0;G.score+=bonus;updHud();
+  const st=kind==='all'?3:kind==='skip'?2:passed?1:0;G.score+=bonus;updHud();if(G.mode==='duel')G.rs[G.levelIdx]=G.score-G.rStart;
   if(kind==='time')G.reveal=true;
-  const last=G.mode==='duel'&&G.levelIdx>=DUEL_LEVELS.length-1;
+  const ser=G.mode==='duel'&&G.bo?seriesNow():null;
+  const last=G.mode==='duel'&&(G.levelIdx>=G.lvs.length-1||!!(ser&&ser.dec));
   if(last)G.done=true;
   sync(true);
   if(passed){Audio_.sfxPlay('clear');confetti(kind==='all'?120:60)}else Audio_.sfxPlay('lose');
@@ -1043,10 +1096,10 @@ function levelDone(kind){
     else setTimeout(()=>{ov(`<h2>${t('chalFail')}</h2><p>${t('foundOf',{a:G.found.size,b:G.need})}</p><p class="note">${t('chalRetryLater')}</p><div class="row"><button class="btn sm o" id="bAgain">${t('retry')}</button><button class="btn sm g" id="bNext">${t('nextLevel')}</button></div>`);
         $('bAgain').onclick=()=>{ovOff();startChal(k)};$('bNext').onclick=()=>{ovOff();startSolo(Math.min(MAX_LEVEL,k*CHAL_EVERY+1))}},1800);
   }else{
-    setTimeout(()=>{if(!G||G.mode!=='duel')return;
+    setTimeout(()=>{if(!G||G.mode!=='duel'||G.resultShown)return;
       if(last)showDuelWait();
-      else{ov(`<h2>${kind==='all'?t('perfect'):kind==='skip'?t('roundDone'):t('timeUp')}</h2>${passed?starsHtml:''}${lines}<p>${t('roundStarts',{n:G.levelIdx+2})}</p>`);
-        setTimeout(()=>{if(!G||G.mode!=='duel')return;ovOff();G.levelIdx++;startLevel()},2000)}},kind==='time'?1600:500);
+      else{const sr=G.bo?seriesNow():null;ov(`<h2>${kind==='all'?t('perfect'):kind==='skip'?t('roundDone'):t('timeUp')}</h2>${passed?starsHtml:''}${lines}${sr?`<div class="series">${sr.wa} : ${sr.wb}</div><p class="note">${t('seriesNote')}</p>`:''}<p>${t('roundStarts',{n:G.levelIdx+2})}</p>`);
+        setTimeout(()=>{if(!G||G.mode!=='duel'||G.resultShown)return;ovOff();G.levelIdx++;startLevel()},2200)}},kind==='time'?1600:500);
   }
 }
 function drawMarks(ctx,which,now){
@@ -1095,7 +1148,7 @@ $('bContinue').onclick=()=>{if(CAMP.unlocked>MAX_LEVEL)return;startSolo(CAMP.unl
 $('lvBack').onclick=goHome;
 $('bSolo').onclick=()=>{if(CAMP.unlocked>MAX_LEVEL)openLevels();else startSolo(CAMP.unlocked)};
 $('bMap').onclick=()=>openLevels();
-function goHome(){ovOff();if(G)G.running=false;G=null;offA=null;leaveDuel();clearHash();updBest();show('home')}
+function goHome(){ovOff();cancelMatch();if(G)G.running=false;G=null;offA=null;leaveDuel();clearHash();updBest();show('home')}
 function clearHash(){try{if(location.hash)history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 
 // ================= online duel (polling a tiny API, like CrowdHunt) =================
@@ -1114,9 +1167,9 @@ async function api(action,data,path){
 let D=null; // {code, room, gid, ready, inflight, again, fail, t, offlineSince}
 const ERR=new Proxy({},{get:(o,k)=>typeof k==='string'&&window.I18N&&window.I18N.en['e_'+k]!=null?t('e_'+k):undefined});
 function inviteLink(code){return location.origin+location.pathname+'#d-'+code}
-async function createDuel(){if(!needProfile(createDuel))return;show('lobby');$('lobbyBody').innerHTML=`<div class="note">${t('creating')}</div>`;
+async function createDuel(){if(!needProfile(createDuel))return;show('lobby');setLobbyTitle('friend');$('lobbyBody').innerHTML=`<div class="note">${t('creating')}</div>`;
   try{const room=await api('create',{dur:soloDur()});enterRoom(room)}catch(e){lobbyError(e.code)}}
-async function joinDuel(code){if(!needProfile(()=>joinDuel(code)))return;show('lobby');$('lobbyBody').innerHTML=`<div class="note">${t('joining',{c:esc(code)})}</div>`;
+async function joinDuel(code){if(!needProfile(()=>joinDuel(code)))return;show('lobby');setLobbyTitle('friend');$('lobbyBody').innerHTML=`<div class="note">${t('joining',{c:esc(code)})}</div>`;
   try{const room=await api('join',{code});Audio_.sfxPlay('join');enterRoom(room)}catch(e){lobbyError(e.code)}}
 function lobbyError(code){if(code==='profile'){ME=null;LS.set('sd_prof','');openProfile();toast(ERR.profile);return}$('lobbyBody').innerHTML=`<h2 style="margin:0">😕</h2><p class="note" style="font-size:17px">${esc(ERR[code]||ERR.network)}</p><button class="btn sm y" id="bBack">${t('back')}</button>`;$('bBack').onclick=goHome;clearHash()}
 function enterRoom(room){
@@ -1124,8 +1177,18 @@ function enterRoom(room){
   try{history.replaceState(null,'','#d-'+room.code)}catch(e){}
   onRoom(room);clearTimeout(D.t);D.t=setTimeout(poll,800);
 }
+let MM=null;
+async function startMatch(mode){if(!needProfile(()=>startMatch(mode)))return;leaveDuel();cancelMatch();MM={mode,code:null,t0:Date.now(),tm:null,iv:null};show('lobby');setLobbyTitle(mode);renderSearch();MM.iv=setInterval(renderSearchTime,1000);mmTick()}
+function renderSearch(){if(!MM)return;$('lobbyBody').innerHTML=`<div class="srch">🔍</div><h2 style="margin:0">${t('searching')}</h2><div class="note" id="mmTime" style="font-size:17px"></div>${REWARD[MM.mode]?`<div class="rwd">${t('rewardLine',{c:REWARD[MM.mode].c,p:REWARD[MM.mode].p})}</div>`:''}<div class="note" id="mmTip"></div><button class="btn sm w" id="bMmCancel">${t('cancel')}</button>`;$('bMmCancel').onclick=goHome;renderSearchTime()}
+function renderSearchTime(){if(!MM)return;const n=Math.floor((Date.now()-MM.t0)/1000),e=$('mmTime');if(e)e.textContent=t('searchSec',{n});const tp=$('mmTip');if(tp)tp.textContent=n>=30?t('searchTip'):''}
+async function mmTick(){const m=MM;if(!m)return;
+  try{const room=await api('match',{mode:m.mode,code:m.code});if(MM!==m)return;m.code=room.code;
+    if(room.players.length>=2){clearInterval(m.iv);MM=null;Audio_.sfxPlay('join');buzz([60,40,60]);enterRoom(room);return}}
+  catch(e){if(MM!==m)return;if(e.code==='profile'){cancelMatch();lobbyError('profile');return}}
+  m.tm=setTimeout(mmTick,1500)}
+function cancelMatch(){if(!MM)return;const m=MM;MM=null;clearTimeout(m.tm);clearInterval(m.iv);if(m.code)api('cancel',{code:m.code,mode:m.mode}).catch(()=>{})}
 function leaveDuel(){if(!D)return;clearTimeout(D.t);D=null;$('net').classList.remove('on');$('rival').classList.remove('on')}
-function myStats(){const s={code:D.code,gid:D.gid,ready:D.ready};if(G&&G.mode==='duel'){s.score=G.score;s.round=G.levelIdx+1;s.found=G.found.size;s.nd=G.diffs.length;s.done=G.done}return s}
+function myStats(){const s={code:D.code,gid:D.gid,ready:D.ready};if(G&&G.mode==='duel'){s.rs=G.rs;s.score=G.score;s.round=G.levelIdx+1;s.found=G.found.size;s.nd=G.diffs.length;s.done=G.done}return s}
 function sync(now){if(!D||!G||G.mode!=='duel')return;if(now){if(D.inflight){D.again=true;return}clearTimeout(D.t);poll()}}
 async function poll(){
   if(!D)return;if(D.inflight){D.again=true;return}
@@ -1145,11 +1208,21 @@ function onRoom(room){
   if(rv&&!rv.online){if(!D.offlineSince)D.offlineSince=Date.now()}else D.offlineSince=0;
   if(room.state==='playing'&&room.gid&&room.gid!==D.gid){D.gid=room.gid;D.ready=null;startDuelGame(room.seed,room.startAt,room.dur,room.plans);return}
   if($('lobby').classList.contains('on'))renderLobby();
+  if(room.mode&&room.mode!=='friend'&&room.amHost&&room.state==='lobby'&&rv&&rv.online&&!D.preparing&&!D.autoStarted){D.autoStarted=true;hostStart()}
   updRival();checkDuelEnd();updH2HRes();
   const b=$('bRe');if(b&&room.amHost&&rv&&rv.ready===D.gid)b.textContent=t('rivalReady');
 }
+function setLobbyTitle(mode){$('lobbyTitle').textContent=t({quick:'modeQuick',bo5:'bo5Title',king:'kingTitle'}[mode]||'duelTitle')}
 function renderLobby(){
   const room=D.room,rv=rivalOf(room),me=room.players.find(p=>p.me),link=inviteLink(D.code);
+  setLobbyTitle(room.mode);
+  if(room.mode&&room.mode!=='friend'){
+    let h=`<h2 style="margin:0">${rv?t('foundRival'):t('searching')}</h2><div class="plist"><div class="pl">${avi(me||ME,34)}<b>${esc(myName())}</b>&nbsp;${t('you')}</div>${rv?`<div class="pl">${avi(rv,34)}<b>${esc(rv.name)}</b><span class="st"><span class="on-dot ${rv.online?'':'no'}"></span></span></div>`:''}</div>`;
+    if(rv&&room.h2h&&(room.h2h.me||room.h2h.rival||room.h2h.ties))h+=`<div class="note" style="font-size:16px;font-weight:600">${h2hText(room.h2h,rv.name)}</div>`;
+    h+=`<div class="note" style="font-size:17px">⏳ ${t('startingSoon')}</div>`;
+    if(REWARD[room.mode])h+=`<div class="rwd">${t('rewardLine',{c:REWARD[room.mode].c,p:REWARD[room.mode].p})}</div>`;
+    h+=`<button class="btn sm g" id="bNewR2">${t('newRival')}</button>`;
+    $('lobbyBody').innerHTML=h;$('bNewR2').onclick=()=>{const m=room.mode;goHome();startMatch(m)};return}
 
   let h=`<div class="note" style="font-size:16px">${t('roomCode')}</div><div class="code">${esc(D.code)}</div>`;
   if(room.amHost){h+=`<div class="link" id="lnk">${esc(link)}</div><div class="row"><button class="btn sm g" id="bWa">${t('whatsapp')}</button><button class="btn sm pu" id="bCopy">${t('copyLink')}</button>${navigator.share?`<button class="btn sm o" id="bShare">${t('share')}</button>`:''}</div>`}
@@ -1172,11 +1245,12 @@ function h2hText(h,name){return t('h2h',{name:esc(name||t('rival')),w:h.me,l:h.r
 function selLink(){const e=$('lnk');if(!e)return;const s=getSelection(),r=document.createRange();r.selectNodeContents(e);s.removeAllRanges();s.addRange(r);toast(t('selLink'))}
 async function hostStart(){if(!D||D.preparing)return;const b=$('bStart')||$('bRe');if(b){b.disabled=true;b.textContent=t('preparing')}D.preparing=true;
   const seed=randCode(10),plans=[];
-  await Promise.all(DUEL_LEVELS.map(async(lv,i)=>{try{const img=await loadImg(photoUrl(photoIdFor(seed,lv)));plans[i]=planPhoto(img,seed,lv,0,diffParams(lv))}catch(e){plans[i]=null}}));
-  for(let i=0;i<DUEL_LEVELS.length;i++)if(plans[i]===undefined)plans[i]=null;
+  const mode=(D.room&&D.room.mode)||'friend',lvs=MODES[mode].lv;
+  await Promise.all(lvs.map(async(lv,i)=>{try{const img=await loadImg(photoUrl(photoIdFor(seed,lv)));plans[i]=planPhoto(img,seed,lv,0,duelPrm(mode,lv))}catch(e){plans[i]=null}}));
+  for(let i=0;i<lvs.length;i++)if(plans[i]===undefined)plans[i]=null;
   try{const room=await api('start',{code:D.code,dur:D.room&&D.room.dur,seed,plans});if(D){D.preparing=false;onRoom(room)}}catch(e){if(D)D.preparing=false;toast(ERR[e.code]||ERR.network);if(b){b.disabled=false;b.textContent=t('startDuel')}}}
 function startDuelGame(seed,startAt,dur,plans){
-  newGame('duel',seed,dur);G.plans=Array.isArray(plans)?plans:undefined;if(G.plans)G.plans.forEach((p,i)=>{if(p)loadImg(photoUrl(photoIdFor(seed,DUEL_LEVELS[i]))).catch(()=>{})});D.lastRivalScore=0;G.resultShown=false;$('rival').classList.add('on');
+  newGame('duel',seed,dur);G.dmode=(D.room&&D.room.mode)||'friend';G.lvs=MODES[G.dmode].lv;G.bo=!!MODES[G.dmode].bo;G.rs=[];G.plans=Array.isArray(plans)?plans:undefined;if(G.plans)G.plans.forEach((p,i)=>{if(p)loadImg(photoUrl(photoIdFor(seed,G.lvs[i]))).catch(()=>{})});D.lastRivalScore=0;G.resultShown=false;$('rival').classList.add('on');
   offA=null;
   show('game');[cvA,cvB].forEach(c=>c.getContext('2d').clearRect(0,0,c.width,c.height));updRival();
   let last=null;ov(`<div class="big" id="cd">3</div><p>${t('getReady')}</p>`);
@@ -1189,7 +1263,7 @@ function updRival(){
   const el=$('rival');if(!G||G.mode!=='duel'){el.classList.remove('on');return}el.classList.add('on');const r=rivalStats();
   if(!r){$('rName').textContent=t('rivalLeft');$('rScore').textContent='–';$('rDots').innerHTML='';$('rRound').textContent='';$('rAv').innerHTML='';return}
   $('rAv').innerHTML=avi(r,30);$('rName').textContent=r.name||t('rival');
-  $('rRound').textContent=!r.online?t('disc'):r.done?t('finished'):t('roundN',{n:Math.max(1,Math.min(r.round,DUEL_LEVELS.length))});
+  $('rRound').textContent=(!r.online?t('disc'):r.done?t('finished'):t('roundN',{n:Math.max(1,Math.min(r.round,G.lvs.length))}))+(G.bo?' · 🏆 '+seriesNow().wa+':'+seriesNow().wb:'');
   $('rDots').innerHTML=r.done?'':Array.from({length:r.nd},(_,i)=>`<span class="${i<r.found?'on':''}">★</span>`).join('');
   $('rScore').textContent=r.score;
   if(r.score>D.lastRivalScore){const diff=r.score-D.lastRivalScore;const p=document.createElement('span');p.className='pop';p.textContent='+'+diff;$('rScore').appendChild(p);setTimeout(()=>p.remove(),1200);
@@ -1197,8 +1271,11 @@ function updRival(){
   D.lastRivalScore=r.score;
 }
 function showDuelWait(){if(!G||G.resultShown)return;const r=rivalStats();ov(`<h2>${t('youFinished')}</h2><p>${t('yourScore',{n:G.score})}</p><p class="note" id="waitTxt" style="font-size:16px">${t('waitingFor',{name:esc(r&&r.name||t('rival')),s:r?r.score:0})}</p>`);checkDuelEnd()}
+function seriesNow(){const r=rivalStats();return series(G.rs||[],r&&!r.stale?(r.rs||[]):[],G.lvs.length)}
 function checkDuelEnd(){
-  if(!G||G.mode!=='duel'||!G.done||G.resultShown)return;const r=rivalStats();const w=$('waitTxt');
+  if(!G||G.mode!=='duel'||G.resultShown)return;const r=rivalStats();
+  if(G.bo&&r&&!r.stale&&seriesNow().dec){if(G.running){G.running=false;Audio_.urgent=false;$('passbar').classList.remove('on')}G.done=true;sync(true);showDuelResult(r);return}
+  if(!G.done)return;const w=$('waitTxt');
   const gone=!r||(D.offlineSince&&Date.now()-D.offlineSince>12000);
   if(gone){showDuelResult(null);return}
   if(r.done&&!r.stale){showDuelResult(r);return}
@@ -1207,13 +1284,20 @@ function checkDuelEnd(){
 function updH2HRes(){const e=$('h2hRes');if(!e||!D||!D.room)return;const rv=rivalOf(D.room),h=D.room.h2h;e.innerHTML=rv&&h&&(h.me||h.rival||h.ties)?h2hText(h,rv.name):''}
 function showDuelResult(r){
   G.resultShown=true;const me=G.score,op=r?r.score:0;
-  const res=!r?t('resLeft'):me>op?t('resWin'):me<op?t('resLose'):t('resTie');
-  if(r&&me>op){Audio_.sfxPlay('win');confetti(180)}else if(r&&me<op)Audio_.sfxPlay('lose');
+  let out=me>op?1:me<op?-1:0,ser=null;
+  if(G.bo&&r){ser=series(G.rs,r.rs||[],G.lvs.length);if(ser.wa!==ser.wb)out=ser.wa>ser.wb?1:-1}
+  if(!r)out=1;
+  const res=!r?t('resLeft'):out>0?(G.dmode==='king'?t('kingWin'):t('resWin')):out<0?t('resLose'):t('resTie');
+  if(out>0){Audio_.sfxPlay('win');confetti(G.dmode==='king'?300:180)}else if(out<0)Audio_.sfxPlay('lose');
+  let rw='';const R=REWARD[G.dmode];
+  if(out>0&&R){let got=[];try{got=JSON.parse(LS.get('sd_rw')||'[]')}catch(e){}if(!got.includes(D&&D.gid)){got.push(D&&D.gid);LS.set('sd_rw',JSON.stringify(got.slice(-30)));CAMP.coins+=R.c;CAMP.total+=R.p;saveCamp()}rw=`<div class="rwd">${t('rewardWon',{c:R.c,p:R.p})}</div>`}
+  const mm=G.dmode&&G.dmode!=='friend';
   const host=D&&D.room&&D.room.amHost;
   ov(`<h2>${res}</h2><div class="vs" style="margin-top:14px"><div class="${me>=op?'win':''}"><div class="n">${esc(myName())} ${t('you')}</div><div class="s">${me}</div></div><div class="${r&&op>=me?'win':''}"><div class="n">${esc(r&&r.name||t('rival'))}</div><div class="s">${r?op:'–'}</div></div></div>
+    ${ser?`<div class="series">${ser.wa} : ${ser.wb}</div><p class="note">${t('seriesNote')}</p>`:''}${rw}
     <p class="note">${r?t('recorded'):t('recordedWin')}</p><p class="note" id="h2hRes" style="font-size:16px;font-weight:600"></p>
-    <div class="row">${r?`<button class="btn sm y" id="bRe">${host?t('rematch'):t('readyMore')}</button>`:''}<button class="btn sm w" id="bHome2">${t('menu')}</button></div>`);
-  $('bHome2').onclick=goHome;updH2HRes();
+    <div class="row">${r?`<button class="btn sm y" id="bRe">${host?t('rematch'):t('readyMore')}</button>`:''}${mm?`<button class="btn sm g" id="bNewR">${t('newRival')}</button>`:''}<button class="btn sm w" id="bHome2">${t('menu')}</button></div>`);
+  $('bHome2').onclick=goHome;updH2HRes();if($('bNewR'))$('bNewR').onclick=()=>{const m=G.dmode;goHome();startMatch(m)};
   const b=$('bRe');if(b){b.onclick=()=>{if(!D)return goHome();if(host)hostStart();else{D.ready=D.gid;sync(true);b.disabled=true;b.textContent=t('waitingHost')}};
     const rv=rivalOf(D.room);if(host&&rv&&rv.ready===D.gid)b.textContent=t('rivalReady')}
 }
@@ -1272,7 +1356,15 @@ async function refreshProfile(){try{const j=await api('get',{},'/api/profile');i
 let lbPer='week';
 $('hSet').onclick=e=>$('bSettings').onclick(e);
 $('hProf').onclick=()=>openProfile();
-$('bFriend').onclick=()=>{const r=$('joinRow');r.classList.toggle('on');if(r.classList.contains('on'))setTimeout(()=>$('codeIn').focus(),50)};
+$('bFriend').onclick=()=>{const r=$('joinRow');r.classList.toggle('on');if(r.classList.contains('on'))setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'center'}),50)};
+$('bOnline').onclick=()=>startMatch('quick');
+$('bTourn').onclick=()=>{$('bo5Rw').textContent=t('rewardLine',{c:REWARD.bo5.c,p:REWARD.bo5.p});$('kingRw').textContent=t('rewardLine',{c:REWARD.king.c,p:REWARD.king.p});show('tourn')};
+$('tBo5').onclick=()=>startMatch('bo5');$('tKing').onclick=()=>startMatch('king');$('tnBack').onclick=goHome;
+const BACKS={profile:'pfBack',settings:'stBack',board:'lbBack',lobby:'bLeave',levels:'lvBack',tourn:'tnBack',game:'bExit'};
+$('navBack').onclick=()=>{const cur=document.querySelector('.screen.on');if(!cur)return;
+  if(cur.id==='game'&&G&&G.mode==='duel'&&(G.done||G.resultShown)){goHome();return}
+  if($('ov').classList.contains('on')&&cur.id!=='game'){ovOff()}
+  const b=$(BACKS[cur.id]);if(b)b.click();else goHome()};
 $('bBoard').onclick=()=>{show('board');loadBoard()};
 $('lbBack').onclick=goHome;
 document.querySelectorAll('#lbTabs button').forEach(b=>b.onclick=()=>{lbPer=b.dataset.p;loadBoard()});
@@ -1304,7 +1396,7 @@ function applyLang(){const d=window.I18N[LANG];document.documentElement.lang=LAN
   if($('lobby').classList.contains('on')&&D&&D.room)renderLobby();
   if($('board').classList.contains('on'))loadBoard();
   if($('profile').classList.contains('on'))renderAvGrid();
-  if(G&&$('game').classList.contains('on')){$('lvl').textContent=G.mode==='duel'?t('round',{n:G.levelIdx+1,m:DUEL_LEVELS.length}):t('level',{n:levelNum()});updRival()}}
+  if(G&&$('game').classList.contains('on')){$('lvl').textContent=G.mode==='duel'?t('round',{n:G.levelIdx+1,m:G.lvs.length}):t('level',{n:levelNum()});updRival()}}
 function renderLangs(){$('langs').innerHTML=LANGS.map(l=>`<button data-l="${l}" class="${l===LANG?'on':''}">${window.I18N[l].flag} ${window.I18N[l].langName}</button>`).join('');
   $('langs').querySelectorAll('button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;LS.set('sd_lang',LANG);applyLang()});renderSwitches()}
 function renderSwitches(){$('swMusic').classList.toggle('on',Audio_.on);$('swSfx').classList.toggle('on',Audio_.sfxOn);$('swVib').classList.toggle('on',VIB_ON)}
@@ -1322,6 +1414,7 @@ async function boot(){
   try{const j=await api('loadprog',{},'/api/profile');if(mergeProg(j.prog)){LS.set('sd_camp',JSON.stringify(CAMP));updBest();if($('levels').classList.contains('on'))renderLevels()}if(!j.prog)cloudSave(true)}catch(e){}
 }
 initHome();renderDurSolo();applyLang();boot().finally(checkHash);
+if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('/api/app?f=sw',{scope:'/'}).catch(()=>{}));
 </script>
 </body>
 </html>
