@@ -1,4 +1,4 @@
-// All API routes in one Vercel function: /api/duel, /api/profile, /api/leaderboard, /api/avatar
+'use strict';
 // Shared helpers (files starting with "_" are not exposed as routes on Vercel).
 const crypto = require('crypto');
 const R_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '';
@@ -18,6 +18,7 @@ function memCmd(c) {
     case 'MGET': return [k, ...a].map(get);
     case 'SET': { const nx = a.includes('NX'); if (nx && raw(k)) return null; const exi = a.indexOf('EX'); mem.set(k, { t: 's', val: a[0], exp: exi >= 0 ? now + a[exi + 1] * 1000 : 0 }); return 'OK'; }
     case 'DEL': return mem.delete(k) ? 1 : 0;
+    case 'INCR': case 'INCRBY': { const v = raw(k); const n = (v ? +v.val : 0) + (op === 'INCR' ? 1 : +a[0]); mem.set(k, { t: 's', val: String(n), exp: v ? v.exp : 0 }); return n; }
     case 'EXPIRE': { const v = raw(k); if (v) v.exp = now + a[0] * 1000; return v ? 1 : 0; }
     case 'ZINCRBY': { const z = zs(k); const n = (z.get(a[1]) || 0) + (+a[0]); z.set(a[1], n); return String(n); }
     case 'ZADD': { const z = zs(k); z.set(a[1], +a[0]); return 1; }
@@ -65,34 +66,46 @@ function periodKeys(ts) {
   return {
     day: 'd' + y + pad(m) + pad(d),
     week: 'w' + sun.getUTCFullYear() + pad(sun.getUTCMonth() + 1) + pad(sun.getUTCDate()),
-    month: 'm' + y + pad(m)
+    month: 'm' + y + pad(m),
+    all: 'all'
   };
 }
-const PERIOD_TTL = { day: 3 * 86400, week: 16 * 86400, month: 70 * 86400 };
+const PERIOD_TTL = { day: 3 * 86400, week: 16 * 86400, month: 70 * 86400, all: 0 };
+const PERIODS = ['day', 'week', 'month', 'all'];
 
 async function recordResult(winUid, loseUid, tie) {
   const pk = periodKeys();
   const cmds = [];
-  for (const per of ['day', 'week', 'month']) {
+  for (const per of PERIODS) {
     const base = 'sd:lb:' + pk[per];
     if (tie) { cmds.push(['ZINCRBY', base + ':t', 1, winUid], ['ZINCRBY', base + ':t', 1, loseUid]); }
     else { cmds.push(['ZINCRBY', base + ':w', 1, winUid], ['ZINCRBY', base + ':l', 1, loseUid], ['ZINCRBY', base + ':w', 0, loseUid], ['ZINCRBY', base + ':l', 0, winUid]); }
-    for (const s of ['w', 'l', 't', 'r']) cmds.push(['EXPIRE', base + ':' + s, PERIOD_TTL[per]]);
+    if (PERIOD_TTL[per]) for (const s of ['w', 'l', 't', 'r']) cmds.push(['EXPIRE', base + ':' + s, PERIOD_TTL[per]]);
   }
+  const hk = h2hKey(winUid, loseUid);
+  cmds.push(tie ? ['INCR', hk + ':t'] : ['INCR', hk + ':' + winUid]);
   await redis(cmds);
   // recompute rank score: wins first, then fewer losses
   const q = [];
-  for (const per of ['day', 'week', 'month']) { const base = 'sd:lb:' + pk[per]; for (const u of [winUid, loseUid]) q.push(['ZSCORE', base + ':w', u], ['ZSCORE', base + ':l', u]); }
+  for (const per of PERIODS) { const base = 'sd:lb:' + pk[per]; for (const u of [winUid, loseUid]) q.push(['ZSCORE', base + ':w', u], ['ZSCORE', base + ':l', u]); }
   const res = await redis(q);
   const set = []; let i = 0;
-  for (const per of ['day', 'week', 'month']) {
+  for (const per of PERIODS) {
     const base = 'sd:lb:' + pk[per];
     for (const u of [winUid, loseUid]) { const w = +res[i++] || 0, l = +res[i++] || 0; set.push(['ZADD', base + ':r', w * 1000 + (999 - Math.min(l, 999)), u]); }
-    set.push(['EXPIRE', base + ':r', PERIOD_TTL[per]]);
+    if (PERIOD_TTL[per]) set.push(['EXPIRE', base + ':r', PERIOD_TTL[per]]);
   }
   await redis(set);
 }
 
+// head-to-head record between two players (kept forever)
+const h2hKey = (a, b) => 'sd:h2h:' + (a < b ? a + ':' + b : b + ':' + a);
+const h2hCmd = (a, b) => { const k = h2hKey(a, b); return ['MGET', k + ':' + a, k + ':' + b, k + ':t']; };
+const h2hParse = r => ({ a: +(r && r[0]) || 0, b: +(r && r[1]) || 0, t: +(r && r[2]) || 0 });
+
+// long-lived first-party cookie with the device key (survives Safari's 7-day storage cleanup)
+function cookies(req) { const o = {}; String(req.headers && req.headers.cookie || '').split(';').forEach(p => { const i = p.indexOf('='); if (i > 0) o[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim()); }); return o; }
+function setPidCookie(res, pid) { try { res.setHeader('Set-Cookie', 'sd_pid=' + pid + '; Max-Age=34560000; Path=/; HttpOnly; Secure; SameSite=Lax'); } catch (e) {} }
 
 
 // Duel rooms (Vercel serverless). Players poll "sync" about once a second, like CrowdHunt.
@@ -122,14 +135,19 @@ async function loadStates(meta) {
   const cmds = [];
   if (keys.length) cmds.push(['MGET', ...keys]);
   if (meta.gid) cmds.push(['GET', 'sd:res:' + meta.gid]);
+  const two = meta.players.length === 2;
+  if (two) cmds.push(h2hCmd(meta.players[0].uid, meta.players[1].uid));
   const out = cmds.length ? await redis(cmds) : [];
   const states = (keys.length ? out[0] : []).map(x => { try { return JSON.parse(x || '{}') || {}; } catch (e) { return {}; } });
   let result = null; if (meta.gid) { try { result = JSON.parse(out[keys.length ? 1 : 0] || 'null'); } catch (e) {} }
-  return { states, result };
+  const h2h = two ? h2hParse(out[out.length - 1]) : null;
+  return { states, result, h2h };
 }
-function view(meta, pid, states, result, withPlans) {
+function view(meta, pid, states, result, withPlans, h2h) {
   const now = Date.now();
+  const meI = meta.players.findIndex(p => p.pid === pid);
   return {
+    h2h: h2h && meI >= 0 ? { me: meI === 0 ? h2h.a : h2h.b, rival: meI === 0 ? h2h.b : h2h.a, ties: h2h.t } : null,
     ok: true, now, code: meta.code, state: meta.state, gid: meta.gid, seed: meta.seed, startAt: meta.startAt, dur: meta.dur,
     amHost: meta.host === pid,
     plans: withPlans && meta.state === 'playing' ? (meta.plans || null) : undefined,
@@ -180,7 +198,7 @@ const H_duel = async (req, res) => {
   if (pid.length < 12) { res.status(400).json({ ok: false, error: 'player' }); return; }
   try {
     const action = b.action;
-    const send = async meta => { const { states, result } = await loadStates(meta); res.json(view(meta, pid, states, result, true)); };
+    const send = async meta => { const { states, result, h2h } = await loadStates(meta); res.json(view(meta, pid, states, result, true, h2h)); };
     if (action === 'create') {
       const me = await playerFromProfile(pid); if (!me) { res.status(400).json({ ok: false, error: 'profile' }); return; }
       const dur = DURS.includes(+b.dur) ? +b.dur : 90;
@@ -236,9 +254,10 @@ const H_duel = async (req, res) => {
         done: !!b.done, ready: typeof b.ready === 'string' ? b.ready.slice(0, 12) : null
       };
       await redis([touch(code, pid, st)]);
-      const { states, result } = await loadStates(meta);
+      let { states, result, h2h } = await loadStates(meta);
       const fin = await maybeFinish(meta, pid, states, result);
-      res.json(view(meta, pid, states, fin, st.gid !== meta.gid)); return;
+      if (fin && !result) h2h = (await loadStates(meta)).h2h;
+      res.json(view(meta, pid, states, fin, st.gid !== meta.gid, h2h)); return;
     }
     res.status(400).json({ ok: false, error: 'action' });
   } catch (e) {
@@ -252,11 +271,25 @@ const PRESETS = 16;
 const H_profile = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.status(405).json({ ok: false, error: 'method' }); return; }
-  const b = body(req), pid = cleanPid(b.player);
+  const b = body(req);
+  if (b.action === 'restore') { const c = cleanPid(cookies(req).sd_pid); res.json({ ok: true, pid: c.length >= 12 ? c : null }); return; }
+  const pid = cleanPid(b.player);
   if (pid.length < 12) { res.status(400).json({ ok: false, error: 'player' }); return; }
   const uid = uidOf(pid);
+  setPidCookie(res, pid);
   try {
     if (b.action === 'get') { const p = await getProfile(uid); res.json({ ok: true, uid, profile: p }); return; }
+    // single-player progress backup (levels, stars, coins)
+    if (b.action === 'loadprog') { const [raw] = await redis([['GET', 'sd:prog:' + uid]]); let prog = null; try { prog = raw ? JSON.parse(raw) : null; } catch (e) {} const prof = await getProfile(uid); res.json({ ok: true, uid, prog, profile: prof }); return; }
+    if (b.action === 'saveprog') {
+      const g = b.prog || {}, num = (v, mx) => Math.max(0, Math.min(mx, Math.floor(+v || 0)));
+      const stars = {}, chal = {};
+      if (g.stars && typeof g.stars === 'object') for (const k in g.stars) { const n = +k; if (n >= 1 && n <= 200) stars[n] = num(g.stars[k], 3); }
+      if (g.chal && typeof g.chal === 'object') for (const k in g.chal) { const n = +k; if (n >= 1 && n <= 40 && g.chal[k]) chal[n] = true; }
+      const prog = { unlocked: Math.max(1, num(g.unlocked, 201)), stars, chal, coins: num(g.coins, 1e7), total: num(g.total, 1e10), t: num(g.t, 9e15) };
+      await redis([['SET', 'sd:prog:' + uid, JSON.stringify(prog)]]);
+      res.json({ ok: true }); return;
+    }
     if (b.action === 'set') {
       const name = cleanName(b.name);
       if (name.length < 2) { res.status(400).json({ ok: false, error: 'short' }); return; }
@@ -289,7 +322,7 @@ const H_profile = async (req, res) => {
 const H_leaderboard = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   const b = req.method === 'POST' ? body(req) : (req.query || {});
-  const per = ['day', 'week', 'month'].includes(b.period) ? b.period : 'week';
+  const per = ['day', 'week', 'month', 'all'].includes(b.period) ? b.period : 'week';
   const base = 'sd:lb:' + periodKeys()[per];
   try {
     const [flat] = await redis([['ZREVRANGE', base + ':r', 0, 29]]);
@@ -321,9 +354,4 @@ const H_avatar = async (req, res) => {
   } catch (e) { res.statusCode = 500; res.end(); }
 };
 
-module.exports = async (req, res) => {
-  const route = (req.query && req.query.route) || ((req.url || '').match(/\/api\/([a-z]+)/) || [])[1];
-  const fn = { duel: H_duel, profile: H_profile, leaderboard: H_leaderboard, avatar: H_avatar }[route];
-  if (!fn) { res.status(404).json({ ok: false, error: 'route' }); return; }
-  return fn(req, res);
-};
+module.exports=async(req,res)=>{const route=(req.query&&req.query.route)||((req.url||'').match(/\/api\/([a-z]+)/)||[])[1];const fn={duel:H_duel,profile:H_profile,leaderboard:H_leaderboard,avatar:H_avatar}[route];if(!fn){res.statusCode=404;res.setHeader('Content-Type','application/json');res.end('{"error":"not_found"}');return}return fn(req,res)};
