@@ -159,6 +159,11 @@ input.txt:focus{background:#fffbe0}
 .sw i{position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;border:2.5px solid var(--ink);transition:left .2s}
 .sw.on{background:var(--green)}.sw.on i{left:30px}
 body.ingame .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+@media (orientation:landscape) and (min-width:760px){
+  .boards{flex-direction:row;gap:12px}
+  .boards canvas{width:min(48.5vw,calc((100dvh - 175px) * 1.6),760px)}
+  .hud,.rival{width:min(98vw,1540px)}
+}
 .lvgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;width:100%}
 .lv{aspect-ratio:1;border:2.5px solid var(--ink);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--ink);font-family:'Fredoka',sans-serif;font-weight:700;font-size:17px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0;line-height:1}
 .lv small{font-size:9px;letter-spacing:-1px;color:#f5a400}
@@ -765,18 +770,17 @@ function updBest(){$('best').textContent=t('homeStats',{s:totalStars(),c:CAMP.co
 const PHOTO_IDS="1584208632661-f8db31bb6489,1675782357245-9e6187773ea7,1731601815528-e1ac3ef1b35e,1642473194881-c7425b3789f1,1774082313811-f9852bd53d00,1498579397066-22750a3cb424,1437276030334-d2faf20c1323,1764543603830-0eb9fb26ed35,1614982452482-b730a4920e64,1729622493745-03ca9590c64a,1609126972335-5a5b18904b45,1437275625246-b7a923f3d0f5,1512299643965-14849b46c71a,1475746812396-2b046c18be0e,1595494775059-f6340b5f1452,1773201074266-5e923d725cad,1619339163285-0b384b75b5e8,1596654907140-cac29b49fca4,1784022163355-02dc0dd2f60a,1627862079351-7bcdcba0c1f1,1545214766-04116e13521c,1498558518643-e15396efbf68,1571769563093-92613d7e2104,1545558014-8692077e9b5c,1759680190851-199358b2cd8c,1587654780291-39c9404d746b,1519087318609-bfb5c04c27f5,1759167632732-96b19f947e17,1563262924-641a8b3d397f,1641314703743-69e354b98c7f,1542800262-8b3c1a6007ad,1600104197373-c07cc35e4f61,1773823564929-2780ff300be4,1600103792025-08a70de9738c,1693854921955-ef80053652aa,1667985501712-139352fe88bc,1525289722380-f5bf1653d504,1784382265423-d5b445f04405,1686596572519-4cbc1c47ddcb,1784382265435-9820bd9cd1bc,1767327142231-ae442ca63fe2,1777896067223-9990008a07d7,1602722053020-af31042989d5,1545696648-86c761bc5410,1654714935398-3e38979a2bf7,1724240661465-1b1d2008f492,1727752380377-20992b9f68aa,1727752040431-c4134a5a3895,1742942696554-d8d02b9287bc,1749202879379-94a3f36d588a,1556910096-6f5e72db6803,1556910602-38f53e68e15d,1595183163451-c354a51e3c67,1542838132-92c53300491e,1488459716781-31db52582fe9,1545898073-346e42dc7357,1662382843231-47dd02758bf7,1591841678952-b9707f8b08b9,1781444554216-60fa5ac34903,1544212415-85fec3f52087,1544212415-8e3d2a27a944,1575659458448-27b1d2836de2,1638825183364-01e8b64b00e0,1543964251-44534f821993,1515281239448-2abe329fe5e5,1572509804952-3ead0d86b0ba,1585224652632-5cfa1f38d184,1504754524776-8f4f37790ca0,1547573854-74d2a71d0826,1493770348161-369560ae357d,1485637701894-09ad422f6de6,1567306295427-94503f8300d7,1591586116988-62fe65164f8d,1612305424474-403a79cc4383,1632776350300-11016768b521,1673168551810-5b35fc903675,1510247854398-8e6a1ac45557,1538333581680-29dd4752ddf2,1494346480775-936a9f0d0877,1515859005217-8a1f08870f59,1518730518541-d0843268c287,1541503673344-d5081408437b,1548671074-349a73ad5733,1608050926221-b614265406d7,1511135432376-cf63945ecbe1,1601047197922-156024782afd,1579532030408-f76e72516533,1514923995763-768e52f5af87,1549740425-5e9ed4d8cd34,1569041032620-2d0ee0b7b673,1617994679330-2883951d0073,1778594006034-230d11763ebb,1550948390-6eb7fa773072,1528044085473-73c9d232288d,1535898331935-2d274aff0fbc,1526139334526-f591a54b477c,1652265540591-608fe558633b,1552993873-0dd1110e025f,1775500344027-2b9c25c30a94,1574586597013-29bd92dc1617,1782091857172-c3890ee18634,1761465064020-dbb7cf562748,1618423205267-e95744f57edf,1593029098077-ee36a677007c,1761416182901-b4fae3717e70,1713607763620-dbfe9c10b3ff,1743842592865-ecad70077602,1769628702933-39ba968cb198,1443884590026-2e4d21aee71c,1565724486415-87ad7dfa81b1,1757932663807-e259a9d2d1d4,1516547375098-9efa2ae4f0c6,1776083760602-f4112996cc87,1654931800100-2ecf6eee7c64,1787365102611-dd949fecd547,1456735190827-d1262f71b8a3,1700170726155-fe844921b8b3,1584992236310-6edddc08acff,1773590776463-4a0f1c2b79cb,1533382433768-3d403240fa40,1759405327498-9cdb5313d078,1575193506520-45ff0a377fb8,1545206085-d0e519bdcecd,1568254183919-78a4f43a2877,1773492136203-7d3decae79aa,1527515545081-5db817172677,1785386451920-a22dc8eb1206,1527904324834-3bda86da6771,1426869884541-df7117556757,1579871494447-9811cf80d66c,1553621042-f6e147245754,1611143669185-af224c5e3252,1774479341808-def72e8236ac,1771353527238-fe6beed69a8b,1509224863479-ab583ee78692,1763515291223-2dc8273ee102,1728242510217-9e2b02654522,1770003978616-6998da6ee274,1544441452-326ff5a947fd,1767262569686-874990f63d4b,1777214710531-7868414d662e,1505731110654-99d7f7f8e39c,1513889961551-628c1e5e2ee9,1541101232843-4bec8f5de0f4,1600664242805-d388eb99ec08,1628764665084-80f80b311ea0,1562408768-ce58c9acded5,1619361034726-4d4627371965,1558271736-cd043ef2e855,1619547582883-a0d38be66a9e,1584003564911-a7a321c84e1c,1534351590666-13e3e96b5017,1459679749680-18eb1eb37418,1605101100278-5d1deb2b6498,1576924542622-772281b13aa8,1585208798174-6cedd86e019a,1784600239568-179055885288,1578859651203-c7126a106b59,1776187007773-aa0f3e56ef4a,1772326281137-b617cbf77c5f,1621275471769-e6aa344546d5,1729010733988-637a20cc5e37,1594069758873-e79e9075eb7d,1783444598733-8a912385aab7,1454179083322-198bb4daae41,1549608276-5786777e6587,1546026423-cc4642628d2b,1708649290066-5f617003b93f,1514907283155-ea5f4094c70c,1759414386298-e62b69085e50,1459908676235-d5f02a50184b,1773499129486-8b5895e048c1,1783309239756-168e747dde35,1618513462042-29ac20aefe11,1535407338890-e52101286bdf,1629760946220-5693ee4c46ac,1632501641765-e568d28b0015,1769288361820-898812b71482,1598653222000-6b7b7a552625,1556379118-7034d926d258,1785370145134-891856533f6d,1596633313465-1256feb1c6d9,1786418288966-a163df121c93,1525033842647-a956848705f0,1633949971137-c6402fa083fe,1773090861661-edf3069861eb,1560244691-c59cfcc671fc,1520302630591-fd1c66edc19d,1505333201693-150bb240ef16,1524259493079-d51c2c78adfe,1765809330985-a59b80931d12,1739868352011-18b6c26614d7,1778493074639-2fa7a1557e0a,1552767059-ce182ead6c1b,1688367258643-62ec6956992e,1708980370709-1723942c3c61,1507991426709-5bbee2c6a189,1778412500752-7bbe764ca31e,1775476794742-00e59e943219,1508298593117-02b95f83abca,1508322345744-2745200b300f,1571030701211-aa96da577e91,1773491355068-4ca459e029b7,1711483667297-72f65fd35cb4,1687092186611-63ed77f0b656,1757583010761-ffc255a8868c,1628681862484-62cf2d1a7b50,1757583009902-2adb8300af5f,1571849291280-89f81a772893,1785650909527-2a1130d94555,1641792114141-f49b0bf9ab55,1473225071450-1f1462d5aa92,1785675694436-84ed32ed55e7,1785675694345-9273c8d68628,1784362480693-9b8609bd854f,1671443290089-8e2ae54ac608,1707757461869-379b080692f0,1592671520190-e41aa6c959e6,1601581875039-e899893d520c,1783970864620-19de8cc2389e,1565588514814-6a9e7bcd7657,1783443076547-fb9cb67224a0,1569383746724-6f1b882b8f46,1564507004663-b6dfb3c824d5,1539020140153-e479b8c22e70,1612687286248-9811801bd618,1627895139551-1329f16953cf,1783101187442-1ec881adb206,1594761047831-e95256994bcc,1590180021913-f5e9eb51644c,1760262492679-0b6d4744bf89,1480796927426-f609979314bd,1573455494060-c5595004fb6c,1782937256350-243c64141ef0,1518105779142-d975f22f1b0a,1678932331809-06eceb2fc145,1717654543196-4d6826ec4bb8,1695385246289-2e7d2ab5e16b,1762089423685-60f5cef02cda,1576712967455-c8d22580e9be,1766392004097-c41cfdeb21a1,1543773495-2cd9248a5bda,1768213049230-7d4bcea01b9e,1567206563064-6f60f40a2b57,1424847651672-bf20a4b0982b,1513104890138-7c749659a591,1597362925123-77861d3fbac7,1785670719039-97d931c57436,1610348725531-843dff563e2c,1498837167922-ddd27525d352".split(',');
 const PW=1200,PH=750;
 function photoUrl(id,w=PW,h=PH){return`https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&crop=entropy&q=82&fm=jpg`}
-// difficulty curve: early levels = big, obvious changes (mostly colour changes / missing objects); later = smaller and subtler
+// difficulty: everything is generous; later levels use slightly smaller areas and skip the very most obvious changes
 function diffParams(L){
-  if(L<=10)return{n:5,rad:31,minVis:40,hueMax:4,easy:2};
-  if(L<=25)return{n:5,rad:28,minVis:34,hueMax:3,easy:1};
-  if(L<=50)return{n:5,rad:25,minVis:28,hueMax:3,easy:1};
-  if(L<=80)return{n:6,rad:23,minVis:24,hueMax:2};
-  if(L<=120)return{n:6,rad:21,minVis:21,hueMax:2};
-  if(L<=160)return{n:7,rad:19,minVis:18,hueMax:2};
-  return{n:7,rad:17,minVis:16,hueMax:2}}
-const CHAL_PARAMS={n:5,rad:21,minVis:22,hueMax:2};
-const CAMP_ORDER=shuffle(mkR('campaign-v1'),PHOTO_IDS.map((_,i)=>i));
-const MAX_LEVEL=200,CHAL_EVERY=5,CHAL_TIME=60,CHAL_COINS=50,CHAL_POINTS=500,HINT_COST=30,TIME_COST=40,TIME_ADD=20,START_COINS=60;
+  if(L<=20)return{n:5,rad:35,skip:0,hueMax:3,easy:2};
+  if(L<=60)return{n:5,rad:33,skip:.05,hueMax:3,easy:1};
+  if(L<=120)return{n:5,rad:31,skip:.12,hueMax:3,easy:1};
+  if(L<=170)return{n:6,rad:28,skip:.2,hueMax:3};
+  return{n:6,rad:26,skip:.28,hueMax:3}}
+const CHAL_PARAMS={n:5,rad:30,skip:.15,hueMax:3};
+// levels go from calm, clear photos to busier ones (measured clutter); photos that can't give a full set are left for the end
+const CAMP_ORDER=[203,209,200,210,87,205,207,241,193,51,163,142,128,164,52,60,202,129,237,206,175,81,219,57,23,48,146,137,110,201,49,126,37,138,88,194,79,174,245,139,115,105,173,243,84,143,178,208,18,111,58,165,130,204,216,157,45,59,234,113,244,158,97,12,220,80,199,125,248,246,151,39,69,92,50,103,82,170,16,235,127,155,94,230,152,68,191,144,90,100,114,171,131,123,189,83,149,11,108,36,162,192,222,38,3,95,7,223,179,195,93,17,140,15,153,198,101,218,70,71,62,167,176,228,148,211,226,212,121,221,47,61,85,240,96,46,65,30,168,118,214,5,102,154,63,67,29,78,120,104,0,231,32,74,242,224,75,107,55,43,77,109,182,1,53,190,42,40,134,28,44,26,136,197,188,145,150,72,183,229,124,8,98,159,116,35,27,66,2,4,9,132,247,6,117,99,185,184,119,10,91,106,64,172,196,56,122,31,186,25,239,33,76,169,24,147,73,225,187,177,34,54,227,166,249,112,133,213,238,181,21,180,89,20,232,13,19,160,14,135,215,161,217,236,86,156,41,233,141,22];
+const MAX_LEVEL=200,CHAL_EVERY=5,CHAL_TIME=60,CHAL_COINS=50,CHAL_POINTS=500,HINT_COST=20,TIME_COST=30,TIME_ADD=30,START_COINS=150;
 const campPhoto=L=>PHOTO_IDS[CAMP_ORDER[(L-1)%PHOTO_IDS.length]];
 const chalPhoto=k=>PHOTO_IDS[CAMP_ORDER[(MAX_LEVEL+k-1)%PHOTO_IDS.length]];
 function photoIdFor(seed,lv){const ord=shuffle(mkR(seed+'|ord'),PHOTO_IDS.map((_,i)=>i));return PHOTO_IDS[ord[(lv-1)%ord.length]]}
@@ -803,7 +807,8 @@ function applyDiff(S,D,iw,ih,d){
     else{const j=d.t==='flip'?at(cx-dx,y):d.t==='vflip'?at(x,cy-dy):d.t==='rot'?at(cx-dx,cy-dy):at(x+ox,y+oy);r=S[j];g=S[j+1];b=S[j+2]}
     D[i]+= (r-D[i])*a;D[i+1]+=(g-D[i+1])*a;D[i+2]+=(b-D[i+2])*a}
 }
-// choose where and how to change the photo (deterministic per seed+level)
+// choose where and how to change the photo (deterministic per seed+level):
+// try hundreds of candidate changes, measure how visible each one is to the eye (coarse colour/shape change), keep the clearest
 function planPhoto(img,seed,lv,n,prm){
   prm=prm||diffParams(lv);n=prm.n||n;
   const r=mkR(seed+'|P'+lv),aw=240,ah=150,k=aw/400;
@@ -812,60 +817,66 @@ function planPhoto(img,seed,lv,n,prm){
   for(let i=0;i<N;i++){const R_=S[i*4],G_=S[i*4+1],B_=S[i*4+2];L[i]=.3*R_+.59*G_+.11*B_;const mx=Math.max(R_,G_,B_),mn=Math.min(R_,G_,B_);sat[i]=mx?(mx-mn)/mx:0}
   for(let yy=0;yy<ah-1;yy++)for(let xx=0;xx<aw-1;xx++){const i=yy*aw+xx;gr[i]=Math.abs(L[i]-L[i+1])+Math.abs(L[i]-L[i+aw])}
   const integ=a=>{const W1=aw+1,t=new Float64Array(W1*(ah+1));for(let yy=0;yy<ah;yy++){let row=0;for(let xx=0;xx<aw;xx++){row+=a[yy*aw+xx];t[(yy+1)*W1+xx+1]=t[yy*W1+xx+1]+row}}return t};
-  const IG=integ(gr),IS=integ(sat),IL=integ(L);
+  const IG=integ(gr),IS=integ(sat);
   const box=(t,cx,cy,rr)=>{const W1=aw+1;let x0=Math.max(0,Math.round((cx-rr)*k)),x1=Math.min(aw,Math.round((cx+rr)*k)),y0=Math.max(0,Math.round((cy-rr)*k)),y1=Math.min(ah,Math.round((cy+rr)*k));const area=Math.max(1,(x1-x0)*(y1-y0));return(t[y1*W1+x1]-t[y0*W1+x1]-t[y1*W1+x0]+t[y0*W1+x0])/area};
-  const rad=prm.rad,minVis=prm.minVis;
-  const cands=[];
-  for(let cy=rad+8;cy<=250-rad-8;cy+=5)for(let cx=rad+8;cx<=400-rad-8;cx+=5){const g=box(IG,cx,cy,rad*.75),s=box(IS,cx,cy,rad*.75);if(g<5)continue;cands.push({x:cx,y:cy,g,s,sc:g+s*28+r()*7})}
-  cands.sort((a,b)=>b.sc-a.sc);
-  const easy=prm.easy||0;
-  const visible=d=>{const T=new Uint8ClampedArray(S);applyDiff(S,T,aw,ah,d);const R2=d.r*k*.8;let sum=0,cnt=0;const cx=d.x*k,cy=d.y*k;
-    for(let yy=Math.max(0,Math.floor(cy-R2));yy<=Math.min(ah-1,cy+R2);yy++)for(let xx=Math.max(0,Math.floor(cx-R2));xx<=Math.min(aw-1,cx+R2);xx++){if((xx-cx)**2+(yy-cy)**2>R2*R2)continue;const i=(yy*aw+xx)*4;sum+=Math.abs(T[i]-S[i])+Math.abs(T[i+1]-S[i+1])+Math.abs(T[i+2]-S[i+2]);cnt++}
-    let rs=0,rc=0;const RR=d.r*k;for(let yy=Math.max(0,Math.floor(cy-RR));yy<=Math.min(ah-1,cy+RR);yy++)for(let xx=Math.max(0,Math.floor(cx-RR));xx<=Math.min(aw-1,cx+RR);xx++){const q=(xx-cx)**2+(yy-cy)**2;if(q<(RR*.72)**2||q>(RR*.95)**2)continue;const i=(yy*aw+xx)*4;rs+=Math.abs(T[i]-S[i])+Math.abs(T[i+1]-S[i+1])+Math.abs(T[i+2]-S[i+2]);rc++}
-    if(d.t!=='hue'&&rc&&rs/rc/3>(easy&&d.t==='clone'?13:20))return 0;
-    return cnt?sum/cnt/3:0};
-  const objFrac=(cx,cy,rr)=>{const ax=cx*k,ay=cy*k,R2=rr*k,r0=Math.max(1,R2*.28);let mr=0,mg=0,mb=0,mc=0,vv=0;
+  const rad=prm.rad,easy=prm.easy||0,hueMax=prm.hueMax||3,skip=prm.skip||0;
+  const T=new Uint8ClampedArray(S);
+  let RK=easy?.42:.55,CDM=easy?38:45;
+  const measure=d=>{
+    const R=d.r*k,cx=d.x*k,cy=d.y*k;
+    const x0=Math.max(0,Math.floor(cx-R-1)),x1=Math.min(aw-1,Math.ceil(cx+R+1)),y0=Math.max(0,Math.floor(cy-R-1)),y1=Math.min(ah-1,Math.ceil(cy+R+1));
+    applyDiff(S,T,aw,ah,d);
+    // coarse (eye-level) change: inner part = how visible; outer ring = how well it blends in
+    const b=3;let inS=0,inC=0,rgS=0,rgC=0;
+    for(let by=y0;by<=y1;by+=b)for(let bx=x0;bx<=x1;bx+=b){const q=Math.sqrt((bx+1.5-cx)**2+(by+1.5-cy)**2)/R;if(q>.9)continue;let a0=0,a1=0,a2=0,c0=0,c1=0,c2=0,m=0;
+      for(let yy=by;yy<Math.min(by+b,ah);yy++)for(let xx=bx;xx<Math.min(bx+b,aw);xx++){const i=(yy*aw+xx)*4;a0+=S[i];a1+=S[i+1];a2+=S[i+2];c0+=T[i];c1+=T[i+1];c2+=T[i+2];m++}
+      const dv=(Math.abs(a0-c0)+Math.abs(a1-c1)+Math.abs(a2-c2))/m/3;if(q<.5){inS+=dv;inC++}else if(q>.6){rgS+=dv;rgC++}}
+    for(let yy=y0;yy<=y1;yy++){const a=(yy*aw+x0)*4,e=(yy*aw+x1+1)*4;T.set(S.subarray(a,e),a)}
+    const inner=inC?inS/inC:0,ring=rgC?rgS/rgC:0;
+    if(d.t!=='hue'&&ring>Math.min(RK>=1?999:32,inner*RK))return 0;
+    return d.t==='hue'?inner:inner-ring*1.2};
+  const colorAt=(cx,cy,rr)=>{const ax=cx*k,ay=cy*k,r0=Math.max(1,rr*k*.28);let mr=0,mg=0,mb=0,mc=0,vv=0;
     for(let yy=Math.floor(ay-r0);yy<=ay+r0;yy++)for(let xx=Math.floor(ax-r0);xx<=ax+r0;xx++){if(xx<0||yy<0||xx>=aw||yy>=ah)continue;const i=(yy*aw+xx)*4;mr+=S[i];mg+=S[i+1];mb+=S[i+2];mc++}
     mr/=mc;mg/=mc;mb/=mc;
     for(let yy=Math.floor(ay-r0);yy<=ay+r0;yy++)for(let xx=Math.floor(ax-r0);xx<=ax+r0;xx++){if(xx<0||yy<0||xx>=aw||yy>=ah)continue;const i=(yy*aw+xx)*4;vv+=Math.sqrt((S[i]-mr)**2+(S[i+1]-mg)**2+(S[i+2]-mb)**2)}
-    if(vv/mc>40)return 0;let inn=0,tot=0;
-    for(let yy=Math.floor(ay-R2);yy<=ay+R2;yy++)for(let xx=Math.floor(ax-R2);xx<=ax+R2;xx++){if(xx<0||yy<0||xx>=aw||yy>=ah||(xx-ax)**2+(yy-ay)**2>R2*R2)continue;const i=(yy*aw+xx)*4;tot++;if(Math.sqrt((S[i]-mr)**2+(S[i+1]-mg)**2+(S[i+2]-mb)**2)<80)inn++}
-    return tot?inn/tot:0};
-  // colour-change candidates: small, single-coloured, saturated objects (not sky / big walls)
-  const bigFrac=(cx,cy,rr)=>{const ax=cx*k,ay=cy*k,r0=Math.max(1,rr*k*.28),R1=rr*k,R2=rr*k*2.2;let mr=0,mg=0,mb=0,mc=0;
-    for(let yy=Math.floor(ay-r0);yy<=ay+r0;yy++)for(let xx=Math.floor(ax-r0);xx<=ax+r0;xx++){if(xx<0||yy<0||xx>=aw||yy>=ah)continue;const i=(yy*aw+xx)*4;mr+=S[i];mg+=S[i+1];mb+=S[i+2];mc++}
-    mr/=mc;mg/=mc;mb/=mc;let inn=0,tot=0;
-    for(let yy=Math.floor(ay-R2);yy<=ay+R2;yy++)for(let xx=Math.floor(ax-R2);xx<=ax+R2;xx++){const q=(xx-ax)**2+(yy-ay)**2;if(xx<0||yy<0||xx>=aw||yy>=ah||q<R1*R1||q>R2*R2)continue;const i=(yy*aw+xx)*4;tot++;if(Math.sqrt((S[i]-mr)**2+(S[i+1]-mg)**2+(S[i+2]-mb)**2)<80)inn++}
+    return[mr,mg,mb,vv/mc]};
+  const frac=(cx,cy,R1,R2,col)=>{const ax=cx*k,ay=cy*k;R1*=k;R2*=k;let inn=0,tot=0;
+    for(let yy=Math.floor(ay-R2);yy<=ay+R2;yy++)for(let xx=Math.floor(ax-R2);xx<=ax+R2;xx++){const q=(xx-ax)**2+(yy-ay)**2;if(xx<0||yy<0||xx>=aw||yy>=ah||q<R1*R1||q>R2*R2)continue;const i=(yy*aw+xx)*4;tot++;if(Math.sqrt((S[i]-col[0])**2+(S[i+1]-col[1])**2+(S[i+2]-col[2])**2)<80)inn++}
     return tot?inn/tot:1};
+  const meanC=(cx,cy,r0,r1)=>{const ax=cx*k,ay=cy*k;r0*=k;r1*=k;let a=0,b=0,c=0,m=0;for(let yy=Math.floor(ay-r1);yy<=ay+r1;yy++)for(let xx=Math.floor(ax-r1);xx<=ax+r1;xx++){const q=(xx-ax)**2+(yy-ay)**2;if(xx<0||yy<0||xx>=aw||yy>=ah||q<r0*r0||q>r1*r1)continue;const i=(yy*aw+xx)*4;a+=S[i];b+=S[i+1];c+=S[i+2];m++}return m?[a/m,b/m,c/m]:[0,0,0]};
+  const cdist=(p,q)=>Math.sqrt((p[0]-q[0])**2+(p[1]-q[1])**2+(p[2]-q[2])**2);
+  const opts=[];
+  // 1) colour changes of small single-coloured objects (not sky / big walls)
   const hueC=[];
-  for(let cy=rad+8;cy<=250-rad-8;cy+=6)for(let cx=rad+8;cx<=400-rad-8;cx+=6){const s=box(IS,cx,cy,rad*.4);if(s<.28)continue;const f=objFrac(cx,cy,rad);if(f<.28||f>.78)continue;if(bigFrac(cx,cy,rad)>.3)continue;
-    {const ax=Math.round(cx*k),ay=Math.round(cy*k),i=(ay*aw+ax)*4,R_=S[i],G_=S[i+1],B_=S[i+2];if(B_>R_+15&&B_>=G_&&(R_+G_+B_)/3>110)continue}
-    hueC.push({x:cx,y:cy,s,sc:s+r()*.25})}
+  for(let cy=rad+6;cy<=250-rad-6;cy+=6)for(let cx=rad+6;cx<=400-rad-6;cx+=6){const s=box(IS,cx,cy,rad*.4);if(s<.25)continue;const col=colorAt(cx,cy,rad);if(col[3]>40)continue;
+    if(col[2]>col[0]+15&&col[2]>=col[1]&&(col[0]+col[1]+col[2])/3>110)continue;
+    const f=frac(cx,cy,0,rad,col);if(f<.22||f>.8)continue;if(frac(cx,cy,rad,rad*2.2,col)>.3)continue;
+    hueC.push({x:cx,y:cy,sc:s+r()*.2})}
   hueC.sort((a,b)=>b.sc-a.sc);
-  const picks=[];let hues=0;const hueMax=prm.hueMax||2;
-  for(const relax of [1,.85,.7,.55]){
-  for(const cd of hueC){if(hues>=hueMax||picks.length>=n)break;if(picks.some(p=>Math.hypot(p.x-cd.x,p.y-cd.y)<(p.r+rad)*1.35+6))continue;
-    const d={t:'hue',x:cd.x,y:cd.y,r:rad,p:+(easy?.33+r()*.34:.22+r()*.56).toFixed(3)};if(visible(d)>=minVis*relax){picks.push(d);hues++}}
-  for(const spread of [2.7,2.2,1.9]){
-    for(const cd of cands){
-      if(picks.length>=n)break;
-      if(picks.some(p=>Math.hypot(p.x-cd.x,p.y-cd.y)<(p.r+rad)*spread/2+6))continue;
-      let types;
-      if(easy){const geo=shuffle(r,easy>1?['clone','clone','rot']:['clone','clone','rot','flip']);types=hues<hueMax&&cd.s>.15?['hue',...geo]:[...geo,'hue']}
-      else{const geo=shuffle(r,['clone','flip','rot','vflip','clone']);types=(hues<hueMax&&cd.s>.3&&r()<.45)?['hue',...geo]:hues<hueMax?[...geo,'hue']:geo}
-      for(const tp of types){
-        if(tp==='hue'&&hues>=hueMax)continue;
-        const d={t:tp,x:cd.x,y:cd.y,r:rad};
-        if(tp==='hue'){const f=objFrac(cd.x,cd.y,rad);if(f<(easy?.25:.18)||f>(easy?.85:.8))continue;d.p=+(easy?.33+r()*.34:.22+r()*.56).toFixed(3)}
-        if(tp==='clone'){const opts=[];for(let a=0;a<8;a++){const an=a*Math.PI/4+r()*.3,dist=rad*(2.3+r()*.5),ox=Math.round(Math.cos(an)*dist),oy=Math.round(Math.sin(an)*dist);
-            if(cd.x+ox<rad||cd.x+ox>400-rad||cd.y+oy<rad||cd.y+oy>250-rad)continue;opts.push({ox,oy,dl:Math.abs(box(IL,cd.x+ox,cd.y+oy,rad*.8)-box(IL,cd.x,cd.y,rad*.8))})}
-          if(!opts.length)continue;opts.sort((a,b)=>a.dl-b.dl);const o=opts[Math.floor(r()*Math.min(2,opts.length))];d.ox=o.ox;d.oy=o.oy}
-        if(visible(d)>=minVis*relax){picks.push(d);if(tp==='hue')hues++;break}
-      }
+  for(const cd of hueC.slice(0,70)){const d={t:'hue',x:cd.x,y:cd.y,r:rad,p:+(.3+r()*.4).toFixed(3)};const v=measure(d);if(v>0)opts.push({d,v})}
+  // 2) objects removed / replaced / turned
+  const cands=[];
+  for(let cy=rad+6;cy<=250-rad-6;cy+=7)for(let cx=rad+6;cx<=400-rad-6;cx+=7){const g=box(IG,cx,cy,rad*.6);if(g<4)continue;cands.push({x:cx,y:cy,sc:g+box(IS,cx,cy,rad*.6)*25+r()*8})}
+  cands.sort((a,b)=>b.sc-a.sc);
+  const picks=[];let hues=0,clones=0,vmin=4;
+  const take=list=>{for(const o of list){if(picks.length>=n)break;if(o.v<=vmin)break;if(o.d.t==='hue'&&hues>=hueMax)continue;if(o.d.t==='clone'&&clones>=3)continue;
+    if(picks.some(p=>Math.hypot(p.x-o.d.x,p.y-o.d.y)<(p.r+o.d.r)*1.02+3))continue;picks.push(o.d);if(o.d.t==='hue')hues++;if(o.d.t==='clone')clones++}};
+  const passes=[[RK,CDM,easy>1?['clone','rot']:['clone','rot','flip']],[.7,65,['clone','rot','flip','vflip']],[1.2,999,['clone','rot','flip','vflip']]];
+  for(const [rk,cdm,types] of passes){
+    RK=rk;CDM=cdm;
+  for(const cd of cands.slice(0,140)){
+    for(const tp of types){
+      if(tp==='clone'){let best=null;const ringT=meanC(cd.x,cd.y,rad*.75,rad*1.05);for(let a=0;a<8;a++){const an=a*Math.PI/4+r()*.3,dist=rad*(2.2+r()*.6),ox=Math.round(Math.cos(an)*dist),oy=Math.round(Math.sin(an)*dist);
+          if(cd.x+ox<rad||cd.x+ox>400-rad||cd.y+oy<rad||cd.y+oy>250-rad)continue;if(cdist(meanC(cd.x+ox,cd.y+oy,0,rad*.8),ringT)>CDM)continue;const d={t:'clone',x:cd.x,y:cd.y,r:rad,ox,oy};const v=measure(d);if(v>0&&(!best||v>best.v))best={d,v}}
+        if(best)opts.push(best)}
+      else{const d={t:tp,x:cd.x,y:cd.y,r:rad};const v=measure(d);if(v>0)opts.push({d,v})}
     }
-    if(picks.length>=n)break;
   }
-  if(picks.length>=n)break;
+    opts.sort((a,b)=>b.v-a.v);
+    take(opts.slice(Math.floor(opts.length*skip)));
+    if(picks.length<n)take(opts);
+    if(picks.length<n){const c0=clones;clones=-99;take(opts);clones=Math.max(c0,clones)}if(picks.length<n&&RK>1){vmin=1.5;clones=-99;take(opts)}
+    if(picks.length>=n)break;
   }
   return picks.length>=Math.min(n,4)?picks.slice(0,n):null;
 }
@@ -923,7 +934,7 @@ function onTap(e,which){
   if(!G||!G.running)return;e.preventDefault();
   const rc=e.currentTarget.getBoundingClientRect(),x=(e.clientX-rc.left)/rc.width*W,y=(e.clientY-rc.top)/rc.height*H,now=performance.now();
   if(now<G.lock)return;
-  let hit=null;G.diffs.forEach((d,i)=>{if(G.found.has(i))return;const ds=Math.hypot(d.x-x,d.y-y);if(ds<=d.r+11&&(!hit||ds<hit.ds))hit={i,ds}});
+  let hit=null;G.diffs.forEach((d,i)=>{if(G.found.has(i))return;const ds=Math.hypot(d.x-x,d.y-y);if(ds<=d.r+14&&(!hit||ds<hit.ds))hit={i,ds}});
   if(hit){const d=G.diffs[hit.i];G.found.add(hit.i);G.score+=100;G.marks.push({i:hit.i,t0:now});burst(d.x,d.y);Audio_.sfxPlay('found');updHud();
     if(G.found.size===G.diffs.length){if(G.mode!=='chal'){G.score+=BONUS_PTS;updHud();bonusPop()}levelDone('all')}
     else if(G.found.size>=G.need&&!G.passed){G.passed=true;$('passbar').classList.add('on');Audio_.sfxPlay('clear');sync(true)}
