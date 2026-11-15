@@ -821,7 +821,7 @@ async function photoLevel(sp,cw,ch){const plan=sp.plan!==undefined?sp.plan:await
   const img=await loadImg(photoUrl(PHOTO_IDS[Math.round(mk.x)]));const r=renderSegPhoto(img,plan,cw,ch);if(r.diffs.length<3)return null;return{a:r.a,b:r.b,diffs:r.diffs,theme:'photo',photo:true}}
 function levelData(sp){if(LVCACHE.has(sp.key))return LVCACHE.get(sp.key);const pr=(async()=>{
     const cw=Math.round(Math.min(1000,Math.max(480,(cvA.clientWidth||400)*Math.min(DPR,2)))),ch=Math.round(cw*H/W);
-    if(LS.get('sd_nophoto')!=='1'){try{const ph=await photoLevel(sp,cw,ch);if(ph)return ph}catch(e){console.warn(e)}}
+    if(LS.get('sd_photo')==='1'){try{const ph=await photoLevel(sp,cw,ch);if(ph)return ph}catch(e){console.warn(e)}}
     if(typeof R3D!=='undefined'&&R3D.ok()){try{const g3=gen3D(sp.sd,sp.lv,sp.p3);const a=await R3D.render(g3.A,cw,ch),b=a&&await R3D.render(g3.B,cw,ch);if(a&&b&&g3.diffs.length>=4)return{a,b,diffs:g3.diffs,theme:g3.theme,d3:true}}catch(e){console.warn(e)}}
     const gl=genRich(sp.sd,sp.lv,sp.p2,undefined),rkey=sp.sd+'|'+sp.lv;return{a:renderOff(gl.A,rkey),b:renderOff(gl.B,rkey),diffs:gl.diffs,theme:gl.theme,d3:false}})();
   LVCACHE.set(sp.key,pr);pr.catch(()=>LVCACHE.delete(sp.key));if(LVCACHE.size>6){const k=LVCACHE.keys().next().value;if(k!==sp.key)LVCACHE.delete(k)}return pr}
@@ -1295,7 +1295,7 @@ function selLink(){const e=$('lnk');if(!e)return;const s=getSelection(),r=docume
 async function hostStart(){if(!D||D.preparing)return;if(D.bot){botNewGame();return}const b=$('bStart')||$('bRe');if(b){b.disabled=true;b.textContent=t('preparing')}D.preparing=true;
   const seed=randCode(10),plans=[];
   const mode=(D.room&&D.room.mode)||'friend',lvs=MODES[mode].lv;
-  await Promise.all(lvs.map(async(lv,i)=>{try{plans[i]=await photoPlan(seed,lv,MODES[mode].hard?d3Params(lv,'king'):d3Params(lv))}catch(e){plans[i]=null}}));
+  await Promise.all(lvs.map(async(lv,i)=>{try{plans[i]=LS.get('sd_photo')!=='1'?null:await photoPlan(seed,lv,MODES[mode].hard?d3Params(lv,'king'):d3Params(lv))}catch(e){plans[i]=null}}));
   for(let i=0;i<lvs.length;i++)if(plans[i]===undefined)plans[i]=null;
   try{const room=await api('start',{code:D.code,dur:D.room&&D.room.dur,seed,plans});if(D){D.preparing=false;onRoom(room)}}catch(e){if(D)D.preparing=false;toast(ERR[e.code]||ERR.network);if(b){b.disabled=false;b.textContent=t('startDuel')}}}
 function startDuelGame(seed,startAt,dur,plans){
