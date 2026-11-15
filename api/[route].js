@@ -19,6 +19,15 @@ function memCmd(c) {
     case 'SET': { const nx = a.includes('NX'); if (nx && raw(k)) return null; const exi = a.indexOf('EX'); mem.set(k, { t: 's', val: a[0], exp: exi >= 0 ? now + a[exi + 1] * 1000 : 0 }); return 'OK'; }
     case 'DEL': return mem.delete(k) ? 1 : 0;
     case 'GETDEL': { const v = get(k); mem.delete(k); return v; }
+    case 'EXISTS': return raw(k) ? 1 : 0;
+    case 'SADD': { let v = raw(k); if (!v) { v = { t: 'set', val: new Set(), exp: 0 }; mem.set(k, v); } let n = 0; a.forEach(x => { if (!v.val.has(x)) { v.val.add(x); n++; } }); return n; }
+    case 'SREM': { const v = raw(k); if (!v) return 0; let n = 0; a.forEach(x => { if (v.val.delete(x)) n++; }); return n; }
+    case 'SMEMBERS': { const v = raw(k); return v ? [...v.val] : []; }
+    case 'SISMEMBER': { const v = raw(k); return v && v.val.has(a[0]) ? 1 : 0; }
+    case 'SCARD': { const v = raw(k); return v ? v.val.size : 0; }
+    case 'RPUSH': { let v = raw(k); if (!v) { v = { t: 'list', val: [], exp: 0 }; mem.set(k, v); } v.val.push(...a); return v.val.length; }
+    case 'LRANGE': { const v = raw(k); if (!v) return []; const L = v.val.length, st = +a[0] < 0 ? L + +a[0] : +a[0], en = +a[1] < 0 ? L + +a[1] : +a[1]; return v.val.slice(Math.max(0, st), en + 1); }
+    case 'LTRIM': { const v = raw(k); if (!v) return 'OK'; const L = v.val.length, st = +a[0] < 0 ? Math.max(0, L + +a[0]) : +a[0], en = +a[1] < 0 ? L + +a[1] : +a[1]; v.val = v.val.slice(st, en + 1); return 'OK'; }
     case 'INCR': case 'INCRBY': { const v = raw(k); const n = (v ? +v.val : 0) + (op === 'INCR' ? 1 : +a[0]); mem.set(k, { t: 's', val: String(n), exp: v ? v.exp : 0 }); return n; }
     case 'EXPIRE': { const v = raw(k); if (v) v.exp = now + a[0] * 1000; return v ? 1 : 0; }
     case 'ZINCRBY': { const z = zs(k); const n = (z.get(a[1]) || 0) + (+a[0]); z.set(a[1], n); return String(n); }
@@ -353,6 +362,43 @@ const H_profile = async (req, res) => {
       const prog = { unlocked: Math.max(1, num(g.unlocked, 201)), stars, chal, coins: num(g.coins, 1e7), total: num(g.total, 1e10), t: num(g.t, 9e15) };
       await redis([['SET', 'sd:prog:' + uid, JSON.stringify(prog)]]);
       res.json({ ok: true }); return;
+    }
+    // ---- friends: mutual list, online presence, direct challenges ----
+    const cleanUid = v => String(v || '').replace(/[^a-f0-9]/g, '').slice(0, 16);
+    if (b.action === 'friends') {
+      const [ids] = await redis([['SMEMBERS', 'sd:fr:' + uid], ['SET', 'sd:on:' + uid, '1', 'EX', 30]]);
+      const list = (ids || []).slice(0, 100);
+      if (!list.length) { res.json({ ok: true, friends: [] }); return; }
+      const profs = await getProfiles(list);
+      const on = await redis(list.map(f => ['EXISTS', 'sd:on:' + f]));
+      const friends = list.map((f, i) => profs[i] ? { uid: f, name: profs[i].name, av: profs[i].av, v: profs[i].v || 0, online: !!on[i] } : null).filter(Boolean)
+        .sort((a, b2) => (b2.online - a.online) || a.name.localeCompare(b2.name));
+      res.json({ ok: true, friends }); return;
+    }
+    if (b.action === 'addfriend') {
+      const me = await getProfile(uid); if (!me) { res.status(400).json({ ok: false, error: 'profile' }); return; }
+      let fu = cleanUid(b.fuid);
+      if (!fu) { const nm = cleanName(b.name).toLowerCase(); if (nm.length < 2) { res.status(400).json({ ok: false, error: 'short' }); return; } const [o2] = await redis([['GET', 'sd:n:' + nm]]); fu = o2 || ''; }
+      if (!fu) { res.status(404).json({ ok: false, error: 'nouser' }); return; }
+      if (fu === uid) { res.status(400).json({ ok: false, error: 'self' }); return; }
+      const fp = await getProfile(fu); if (!fp) { res.status(404).json({ ok: false, error: 'nouser' }); return; }
+      const [cnt] = await redis([['SCARD', 'sd:fr:' + uid]]); if (+cnt >= 100) { res.status(400).json({ ok: false, error: 'many' }); return; }
+      await redis([['SADD', 'sd:fr:' + uid, fu], ['SADD', 'sd:fr:' + fu, uid]]);
+      res.json({ ok: true, friend: { uid: fu, name: fp.name, av: fp.av, v: fp.v || 0 } }); return;
+    }
+    if (b.action === 'delfriend') { const fu = cleanUid(b.fuid); if (fu) await redis([['SREM', 'sd:fr:' + uid, fu], ['SREM', 'sd:fr:' + fu, uid]]); res.json({ ok: true }); return; }
+    if (b.action === 'invite') {
+      const fu = cleanUid(b.fuid), code = String(b.code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+      const [isF] = await redis([['SISMEMBER', 'sd:fr:' + uid, fu]]);
+      if (!+isF || !code) { res.status(400).json({ ok: false, error: 'notfriend' }); return; }
+      await redis([['RPUSH', 'sd:inv:' + fu, JSON.stringify({ from: uid, code, t: Date.now() })], ['LTRIM', 'sd:inv:' + fu, -5, -1], ['EXPIRE', 'sd:inv:' + fu, 180]]);
+      res.json({ ok: true }); return;
+    }
+    if (b.action === 'inbox') {
+      const [raw] = await redis([['LRANGE', 'sd:inv:' + uid, 0, -1], ['DEL', 'sd:inv:' + uid], ['SET', 'sd:on:' + uid, '1', 'EX', 30]]);
+      const now = Date.now(), inv = (raw || []).map(x => { try { return JSON.parse(x); } catch (e) { return null; } }).filter(x => x && now - x.t < 150000);
+      const profs = await getProfiles(inv.map(x => x.from));
+      res.json({ ok: true, invites: inv.map((x, i) => profs[i] ? { code: x.code, from: x.from, name: profs[i].name, av: profs[i].av, v: profs[i].v || 0 } : null).filter(Boolean) }); return;
     }
     if (b.action === 'set') {
       const name = cleanName(b.name);
