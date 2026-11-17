@@ -85,8 +85,9 @@ input.txt:focus{background:#fffbe0}
 @keyframes pop{0%{opacity:0;transform:translateY(8px) scale(.5)}20%{opacity:1;transform:translateY(-6px) scale(1.25)}100%{opacity:0;transform:translateY(-34px) scale(1)}}
 .rival.flash{animation:rflash .7s}
 @keyframes rflash{0%{background:#9fd3ff;transform:scale(1.03)}100%{background:#e9f4ff;transform:scale(1)}}
-.boards{display:flex;flex-direction:column;gap:10px;align-items:center}
-.boards canvas{width:min(96vw,620px,calc((100dvh - 215px) * .8));aspect-ratio:8/5;border:3px solid var(--ink);border-radius:18px;display:block;touch-action:manipulation;cursor:crosshair;background:#fff;box-shadow:0 5px 0 var(--ink)}
+.boards{display:flex;flex-direction:column;gap:0;align-items:stretch;border:3px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);background:var(--ink)}
+.boards canvas{width:min(96vw,620px,calc((100dvh - 200px) * .8));aspect-ratio:8/5;border:0;border-radius:0;display:block;touch-action:manipulation;cursor:crosshair;background:#fff}
+.boards #cvB{margin-top:3px}
 .shake{animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-6px) rotate(-.5deg)}50%{transform:translateX(6px) rotate(.5deg)}75%{transform:translateX(-3px)}}
 .tools{display:flex;gap:10px;margin-top:12px}
@@ -165,7 +166,7 @@ input.txt:focus{background:#fffbe0}
 .sw.on{background:var(--green)}.sw.on i{left:30px}
 body.ingame .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
 @media (orientation:landscape) and (min-width:760px){
-  .boards{flex-direction:row;gap:12px}
+  .boards{flex-direction:row;gap:0}.boards #cvB{margin-top:0;margin-inline-start:3px}
   .boards canvas{width:min(48.5vw,calc((100dvh - 175px) * 1.6),760px)}
   .hud,.rival{width:min(98vw,1540px)}
 }
